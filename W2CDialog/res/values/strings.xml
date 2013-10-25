@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">W2CDialog</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="cognome">Cognome</string>
+    <string name="data_di_nascita">Data di nascita</string>
+    <string name="nome">Nome</string>
+    <string name="showdialog">showDialog</string>
+    <string name="showdialoglist">showDialogList</string>
+    <string name="showcustomdialog">showCustomDialog</string>
+    <string name="showdtpicker">showDTPicker</string>
+    <string name="showtpicker">showTPicker</string>
+
+</resources>
