@@ -1,12 +1,22 @@
 package com.woodstocoasts.w2ccolorpicker;
 
 import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.Toast;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -25,32 +35,72 @@ public class MainActivity extends Activity {
 	private int r = 0;
 	private int g = 0;
 	private int b = 0;
+	
+	private int lockRGB = 0;
 
 	private boolean bSeekBarSliding = false;
 
 	TextView tvColorSample;
+	TextView tvHEX;
 
 	EditText etRedValue;
 	EditText etGreenValue;
 	EditText etBlueValue;
-
+	
+	CheckBox cbLockRGB;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
 		tvColorSample = (TextView) findViewById(R.id.textView2);
+		tvHEX = (TextView) findViewById(R.id.textViewRGBHValues);
 
 		etRedValue = (EditText) findViewById(R.id.editTextRValue);
 		etGreenValue = (EditText) findViewById(R.id.editTextGValue);
 		etBlueValue = (EditText) findViewById(R.id.editTextBValue);
+		
+		cbLockRGB = (CheckBox) findViewById(R.id.checkBoxLockRGB);
 
+		
+	
 
 		sbRed = (SeekBar) findViewById(R.id.seekBarRed);
 		sbGreen = (SeekBar) findViewById(R.id.seekBarGreen);
 		sbBlue = (SeekBar) findViewById(R.id.seekBarBlue);
 
 		updateColor();
+		
+		
+		cbLockRGB.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				Drawable d = getResources().getDrawable(android.R.drawable.ic_secure);
+				// TODO Auto-generated method stub
+				if (cbLockRGB.isChecked()){
+					etRedValue.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
+					etGreenValue.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
+					etBlueValue.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
+					
+					lockRGB = (sbRed.getProgress() + sbGreen.getProgress() + sbBlue.getProgress()) / 3;
+					
+					sbRed.setProgress(lockRGB);
+					sbGreen.setProgress(lockRGB);
+					sbBlue.setProgress(lockRGB);
+					
+				}
+				else
+				{
+					etRedValue.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+					etGreenValue.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+					etBlueValue.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+				}
+				updateColor();
+			}
+		});
 
 		sbRed.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
@@ -70,6 +120,12 @@ public class MainActivity extends Activity {
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
 				// TODO Auto-generated method stub
+				if (cbLockRGB.isChecked()){
+					sbGreen.setProgress(progress);
+					sbBlue.setProgress(progress);
+					lockRGB = progress;
+				}
+				
 				updateColor();
 			}
 		});
@@ -96,6 +152,12 @@ public class MainActivity extends Activity {
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
 				// TODO Auto-generated method stub
+				if (cbLockRGB.isChecked()){
+					sbRed.setProgress(progress);
+					sbBlue.setProgress(progress);
+					lockRGB = progress;
+				}
+
 				updateColor();
 			}
 		});
@@ -119,6 +181,12 @@ public class MainActivity extends Activity {
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
 				// TODO Auto-generated method stub
+				if (cbLockRGB.isChecked()){
+					sbRed.setProgress(progress);
+					sbGreen.setProgress(progress);
+					lockRGB = progress;
+				}
+
 				updateColor();
 			}
 		});
@@ -215,6 +283,38 @@ public class MainActivity extends Activity {
 
 			}
 		});
+		
+	tvHEX.setOnClickListener(new OnClickListener() {
+		
+		@SuppressLint("NewApi")
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			// Gets a handle to the clipboard service.
+//			ClipboardManager clipboard = (ClipboardManager)
+//			        getSystemService(Context.CLIPBOARD_SERVICE);
+			
+			String clipbresult = "RGB("+ r +", " + g + ", " + b +")";
+					clipbresult += "; RGB Hex: (" + tvHEX.getText().toString() + ")";
+//			// Creates a new text clip to put on the clipboard
+//			ClipData clip = ClipData.newPlainText("plain text", clipbresult);
+//			// Set the clipboard's primary clip.
+//			clipboard.setPrimaryClip(clip);
+			
+			  int sdk = android.os.Build.VERSION.SDK_INT;
+	            if(sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
+	                android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+	                clipboard.setText(clipbresult);
+	            } else {
+	                android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE); 
+	                android.content.ClipData clip = android.content.ClipData.newPlainText("text label",clipbresult);
+	                clipboard.setPrimaryClip(clip);
+	                
+	            }
+	            Toast.makeText(getApplicationContext(), "Copiato nella clipboard:\n" + clipbresult, Toast.LENGTH_LONG).show();
+			
+		}
+	})	;
 
 	}
 	/**
@@ -228,7 +328,7 @@ public class MainActivity extends Activity {
 	}
 
 
-
+	
 
 	/**
 	 * Aggiorno il valore degli EditText dei valori RGB
@@ -237,10 +337,19 @@ public class MainActivity extends Activity {
 	public void updateColor(){
 		bSeekBarSliding = true;
 
+		
+		if (cbLockRGB.isChecked())
+		{
+			r = lockRGB;
+			g = lockRGB;
+			b = lockRGB;
+		}
+		else
+		{
 		r = sbRed.getProgress();
 		g = sbGreen.getProgress();
 		b = sbBlue.getProgress();
-
+		}
 		tvColorSample.setBackgroundColor(Color.rgb(r, g, b));
 
 		//etRedValue.setFocusable(false);
@@ -260,6 +369,8 @@ public class MainActivity extends Activity {
 		//etBlueValue.setFocusableInTouchMode(true);
 		//etBlueValue.clearFocus();
 
+		tvHEX.setText("#"+ String.format("%02X", r)+ String.format("%02X", g)+ String.format("%02X", b));
+		
 		bSeekBarSliding = false;
 
 

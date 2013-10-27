@@ -8,5 +8,8 @@
     <string name="imgshpcolorpreview">imgShpColorPreview</string>
     <string name="RGB_ZeroValue">0</string>
     <string name="RGB_Hint">0..255</string>
+    <string name="checkboxLockRGB">Blocca canali RGB</string>
+    <string name="RGB_HEX">RGB in esadecimale</string>
+    <string name="RGB_HEX_Result"></string>
 
 </resources>
