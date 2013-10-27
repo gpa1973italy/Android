@@ -29,14 +29,48 @@
             android:text="@string/colore_scelto" />
     </LinearLayout>
 
+    <EditText
+        android:id="@+id/editTextBValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/seekBarRed"
+        android:layout_toRightOf="@+id/seekBarRed"
+        android:ems="10"
+        android:hint="@string/RGB_Hint"
+        android:inputType="number"
+        android:text="@string/RGB_ZeroValue" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/editTextRValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextBValue"
+        android:layout_toRightOf="@+id/seekBarRed"
+        android:ems="10"
+        android:hint="@string/RGB_Hint"
+        android:inputType="number"
+        android:text="@string/RGB_ZeroValue" />
+
+    <EditText
+        android:id="@+id/editTextGValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextRValue"
+        android:layout_toRightOf="@+id/seekBarRed"
+        android:ems="10"
+        android:hint="@string/RGB_Hint"
+        android:inputType="number"
+        android:text="@string/RGB_ZeroValue" />
+
     <SeekBar
-        android:id="@+id/seekBarRed"
+        android:id="@+id/seekBarBlue"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/seekBarGreen"
-        android:layout_alignLeft="@+id/seekBarGreen"
-        android:layout_alignRight="@+id/seekBarGreen"
-        android:layout_marginBottom="37dp"
+        android:layout_alignBottom="@+id/editTextGValue"
+        android:layout_toLeftOf="@+id/editTextGValue"
         android:max="255"
         android:progress="0" />
 
@@ -44,60 +78,18 @@
         android:id="@+id/seekBarGreen"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/seekBarBlue"
-        android:layout_alignRight="@+id/seekBarBlue"
-        android:layout_centerVertical="true"
+        android:layout_alignBottom="@+id/editTextRValue"
+        android:layout_toLeftOf="@+id/editTextRValue"
         android:max="255"
         android:progress="0" />
 
     <SeekBar
-        android:id="@+id/seekBarBlue"
+        android:id="@+id/seekBarRed"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/linearLayout1"
-        android:layout_below="@+id/seekBarGreen"
-        android:layout_marginTop="30dp"
+        android:layout_below="@+id/linearLayout1"
         android:max="255"
         android:progress="0" />
-
-    <EditText
-        android:id="@+id/editTextRValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/seekBarRed"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@+id/seekBarRed"
-        android:ems="10"
-        android:inputType="number"
-        android:text="@string/RGB_ZeroValue"
-        android:hint="@string/RGB_Hint"
-         >
-
-        <requestFocus />
-    </EditText>
-
-    <EditText
-        android:id="@+id/editTextGValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/seekBarBlue"
-        android:layout_alignLeft="@+id/editTextRValue"
-        android:ems="10"
-        android:inputType="number"
-        android:text="@string/RGB_ZeroValue"
-        android:hint="@string/RGB_Hint"
-         />
-
-    <EditText
-        android:id="@+id/editTextBValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/seekBarBlue"
-        android:layout_alignLeft="@+id/editTextGValue"
-        android:ems="10"
-        android:inputType="number"
-        android:text="@string/RGB_ZeroValue"
-        android:hint="@string/RGB_Hint"
-         />
 
 </RelativeLayout>

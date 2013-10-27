@@ -223,7 +223,9 @@ public class MainActivity extends Activity {
 	 * @param s SeekBar
 	 */
 	public void updateProgressBarFromValues(EditText e, SeekBar s){
-		if (e.getText().toString().matches("\\d{1,3}")){
+		// \\d{1,3}
+		// /(^[0-1]?[0-9]?[0-9]$)|(^[2][0-4][0-9]$)|(^25[0-5]$)/
+		if (e.getText().toString().matches("/(^[0-1]?[0-9]?[0-9]$)|(^[2][0-4][0-9]$)|(^25[0-5]$)/")){
 			if (Integer.parseInt(e.getText().toString())>= 0 && Integer.parseInt(e.getText().toString()) <= 255)
 			{
 				s.setProgress(Integer.parseInt(e.getText().toString()));
