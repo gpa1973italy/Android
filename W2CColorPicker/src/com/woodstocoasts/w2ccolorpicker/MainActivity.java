@@ -1,26 +1,37 @@
 package com.woodstocoasts.w2ccolorpicker;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+
+
 
 /**
  * @author G
@@ -35,7 +46,7 @@ public class MainActivity extends Activity {
 	private int r = 0;
 	private int g = 0;
 	private int b = 0;
-	
+
 	private int lockRGB = 0;
 
 	private boolean bSeekBarSliding = false;
@@ -46,36 +57,97 @@ public class MainActivity extends Activity {
 	EditText etRedValue;
 	EditText etGreenValue;
 	EditText etBlueValue;
-	
+
 	CheckBox cbLockRGB;
-	
-	
+
+
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		tvColorSample = (TextView) findViewById(R.id.textView2);
+		tvColorSample = (TextView) findViewById(R.id.textViewColorSample);
 		tvHEX = (TextView) findViewById(R.id.textViewRGBHValues);
 
 		etRedValue = (EditText) findViewById(R.id.editTextRValue);
 		etGreenValue = (EditText) findViewById(R.id.editTextGValue);
 		etBlueValue = (EditText) findViewById(R.id.editTextBValue);
-		
+
 		cbLockRGB = (CheckBox) findViewById(R.id.checkBoxLockRGB);
 
-		
-	
+
+
 
 		sbRed = (SeekBar) findViewById(R.id.seekBarRed);
 		sbGreen = (SeekBar) findViewById(R.id.seekBarGreen);
 		sbBlue = (SeekBar) findViewById(R.id.seekBarBlue);
 
 		updateColor();
+
+		final ArrayList<String> arrlist = new ArrayList<String>();
+
+		arrlist.add("Nessun colore selezionato");
+
+
+		final ListView lv = (ListView) findViewById(R.id.listViewColors);
+		lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrlist));
+
+		
+
+		lv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				//arg1.setBackgroundColor(Color.rgb(r, g, b));
+				Toast.makeText(getApplicationContext(), arrlist.get(arg2), Toast.LENGTH_SHORT).show();
+			}
+		});
 		
 		
+		tvColorSample.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+				String myElem =	"#"+ String.format("%02X", r)+ String.format("%02X", g)+ String.format("%02X", b);
+				
+				if (arrlist.contains("Nessun colore selezionato")) {
+					arrlist.remove(0);
+					arrlist.add(myElem);
+				}
+				else
+				{
+					arrlist.add(myElem);
+				}
+
+
+
+				ListAdapter adapter = lv.getAdapter();
+				lv.setAdapter(null);
+				lv.setAdapter(adapter);
+				/*
+				for (int i = 0; i < lv.getCount(); i++){
+					Log.e("GPA", lv.getItemAtPosition(i).toString());
+					Log.e("GPA:R", lv.getItemAtPosition(i).toString().substring(1, 3)) ;
+					Log.e("GPA:G", lv.getItemAtPosition(i).toString().substring(3, 5)) ;
+					Log.e("GPA:B", lv.getItemAtPosition(i).toString().substring(5, 7)) ;
+
+
+					lv.setBackgroundColor(Color.rgb(Integer.parseInt(lv.getItemAtPosition(i).toString().substring(1, 3), 16), Integer.parseInt(lv.getItemAtPosition(i).toString().substring(3, 5), 16), Integer.parseInt(lv.getItemAtPosition(i).toString().substring(5, 7), 16)));
+					//	lv.setBackgroundColor(Color.rgb(122, 10, 255));
+				}
+				*/
+					
+					
+			}	 
+		});
+
+
 		cbLockRGB.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				Drawable d = getResources().getDrawable(android.R.drawable.ic_secure);
@@ -84,13 +156,13 @@ public class MainActivity extends Activity {
 					etRedValue.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
 					etGreenValue.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
 					etBlueValue.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
-					
+
 					lockRGB = (sbRed.getProgress() + sbGreen.getProgress() + sbBlue.getProgress()) / 3;
-					
+
 					sbRed.setProgress(lockRGB);
 					sbGreen.setProgress(lockRGB);
 					sbBlue.setProgress(lockRGB);
-					
+
 				}
 				else
 				{
@@ -125,7 +197,7 @@ public class MainActivity extends Activity {
 					sbBlue.setProgress(progress);
 					lockRGB = progress;
 				}
-				
+
 				updateColor();
 			}
 		});
@@ -283,38 +355,38 @@ public class MainActivity extends Activity {
 
 			}
 		});
-		
-	tvHEX.setOnClickListener(new OnClickListener() {
-		
-		@SuppressLint("NewApi")
-		@Override
-		public void onClick(View v) {
-			// TODO Auto-generated method stub
-			// Gets a handle to the clipboard service.
-//			ClipboardManager clipboard = (ClipboardManager)
-//			        getSystemService(Context.CLIPBOARD_SERVICE);
-			
-			String clipbresult = "RGB("+ r +", " + g + ", " + b +")";
-					clipbresult += "; RGB Hex: (" + tvHEX.getText().toString() + ")";
-//			// Creates a new text clip to put on the clipboard
-//			ClipData clip = ClipData.newPlainText("plain text", clipbresult);
-//			// Set the clipboard's primary clip.
-//			clipboard.setPrimaryClip(clip);
-			
-			  int sdk = android.os.Build.VERSION.SDK_INT;
-	            if(sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
-	                android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-	                clipboard.setText(clipbresult);
-	            } else {
-	                android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE); 
-	                android.content.ClipData clip = android.content.ClipData.newPlainText("text label",clipbresult);
-	                clipboard.setPrimaryClip(clip);
-	                
-	            }
-	            Toast.makeText(getApplicationContext(), "Copiato nella clipboard:\n" + clipbresult, Toast.LENGTH_LONG).show();
-			
-		}
-	})	;
+
+		tvHEX.setOnClickListener(new OnClickListener() {
+
+			@SuppressLint("NewApi")
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				// Gets a handle to the clipboard service.
+				//			ClipboardManager clipboard = (ClipboardManager)
+				//			        getSystemService(Context.CLIPBOARD_SERVICE);
+
+				String clipbresult = "RGB("+ r +", " + g + ", " + b +")";
+				clipbresult += "; RGB Hex: (" + tvHEX.getText().toString() + ")";
+				//			// Creates a new text clip to put on the clipboard
+				//			ClipData clip = ClipData.newPlainText("plain text", clipbresult);
+				//			// Set the clipboard's primary clip.
+				//			clipboard.setPrimaryClip(clip);
+
+				int sdk = android.os.Build.VERSION.SDK_INT;
+				if(sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
+					android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+					clipboard.setText(clipbresult);
+				} else {
+					android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE); 
+					android.content.ClipData clip = android.content.ClipData.newPlainText("text label",clipbresult);
+					clipboard.setPrimaryClip(clip);
+
+				}
+				Toast.makeText(getApplicationContext(), "Copiato nella clipboard:\n" + clipbresult, Toast.LENGTH_LONG).show();
+
+			}
+		})	;
 
 	}
 	/**
@@ -328,7 +400,7 @@ public class MainActivity extends Activity {
 	}
 
 
-	
+
 
 	/**
 	 * Aggiorno il valore degli EditText dei valori RGB
@@ -337,7 +409,7 @@ public class MainActivity extends Activity {
 	public void updateColor(){
 		bSeekBarSliding = true;
 
-		
+
 		if (cbLockRGB.isChecked())
 		{
 			r = lockRGB;
@@ -346,9 +418,9 @@ public class MainActivity extends Activity {
 		}
 		else
 		{
-		r = sbRed.getProgress();
-		g = sbGreen.getProgress();
-		b = sbBlue.getProgress();
+			r = sbRed.getProgress();
+			g = sbGreen.getProgress();
+			b = sbBlue.getProgress();
 		}
 		tvColorSample.setBackgroundColor(Color.rgb(r, g, b));
 
@@ -370,7 +442,7 @@ public class MainActivity extends Activity {
 		//etBlueValue.clearFocus();
 
 		tvHEX.setText("#"+ String.format("%02X", r)+ String.format("%02X", g)+ String.format("%02X", b));
-		
+
 		bSeekBarSliding = false;
 
 
