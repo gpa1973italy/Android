@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:defaultValue="@xml/preferences" android:layout="@layout/activity_main">
+    <PreferenceCategory android:title="Ultimo colore" android:summary="Mostra l'ultimo colore generato">
+        <EditTextPreference android:title="R:" android:summary="componente rosso" android:inputType="number" android:key="SavedR"/>
+        <EditTextPreference android:title="G:" android:summary="componente verde" android:inputType="number" android:key="SavedG"/>
+        <EditTextPreference android:title="B:" android:summary="componente blu" android:inputType="number" android:key="SavedB"/>
+    </PreferenceCategory>
+    
+
+</PreferenceScreen>
