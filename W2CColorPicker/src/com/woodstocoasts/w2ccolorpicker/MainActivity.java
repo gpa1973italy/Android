@@ -1,24 +1,23 @@
 package com.woodstocoasts.w2ccolorpicker;
 
 import java.util.ArrayList;
-
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MotionEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -60,12 +59,15 @@ public class MainActivity extends Activity {
 
 	CheckBox cbLockRGB;
 
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+//		SharedPreferences prefs = getSharedPreferences("MY_PREFERENCES", Context.MODE_PRIVATE);
+		
+	    
 		tvColorSample = (TextView) findViewById(R.id.textViewColorSample);
 		tvHEX = (TextView) findViewById(R.id.textViewRGBHValues);
 
@@ -82,6 +84,10 @@ public class MainActivity extends Activity {
 		sbGreen = (SeekBar) findViewById(R.id.seekBarGreen);
 		sbBlue = (SeekBar) findViewById(R.id.seekBarBlue);
 
+//		etRedValue.setText(prefs.getInt("SavedR", 0)) ;
+//		etGreenValue.setText(prefs.getInt("SavedG", 0)) ;
+//		etBlueValue.setText(prefs.getInt("SavedB", 0)) ;
+//		
 		updateColor();
 
 		final ArrayList<String> arrlist = new ArrayList<String>();
@@ -398,6 +404,19 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item){
+		switch (item.getItemId()){
+		case R.id.action_settings:
+			Intent i = new Intent(this, PrefsActivity.class);
+			startActivityForResult(i, 0);
+			return true;
+		}
+		return false;
+		
+		
+	}
 
 
 
@@ -426,7 +445,7 @@ public class MainActivity extends Activity {
 
 		//etRedValue.setFocusable(false);
 		etRedValue.setText(String.valueOf(r));
-
+		
 		//etRedValue.setFocusableInTouchMode(true);
 		//etRedValue.clearFocus();
 
@@ -441,8 +460,15 @@ public class MainActivity extends Activity {
 		//etBlueValue.setFocusableInTouchMode(true);
 		//etBlueValue.clearFocus();
 
-		tvHEX.setText("#"+ String.format("%02X", r)+ String.format("%02X", g)+ String.format("%02X", b));
-
+		
+		int [] cmyk = rgbToCmyk(r, g, b);
+		String cmykS;
+		
+		cmykS = "C: " + Integer.toString(cmyk[0]) + " M: " + Integer.toString(cmyk[1])+ " Y: " +Integer.toString(cmyk[2])+" K: " +Integer.toString(cmyk[3]);  
+		
+		
+		tvHEX.setText("#"+ String.format("%02X", r)+ String.format("%02X", g)+ String.format("%02X", b) + "-" + cmykS);
+		
 		bSeekBarSliding = false;
 
 
@@ -495,4 +521,35 @@ public class MainActivity extends Activity {
 
 	}
 
+	public static int[] rgbToCmyk(int red, int green, int blue)
+    {
+        int black = Math.min(Math.min(255 - red, 255 - green), 255 - blue);
+
+        if (black!=255) {
+            int cyan    = (255-red-black)/(255-black);
+            int magenta = (255-green-black)/(255-black);
+            int yellow  = (255-blue-black)/(255-black);
+            return new int[] {cyan,magenta,yellow,black};
+        } else {
+            int cyan = 255 - red;
+            int magenta = 255 - green;
+            int yellow = 255 - blue;
+            return new int[] {cyan,magenta,yellow,black};
+        }
+    }
+
+    public static int[] cmykToRgb(int cyan, int magenta, int yellow, int black)
+    {
+        if (black!=255) {
+            int R = ((255-cyan) * (255-black)) / 255; 
+            int G = ((255-magenta) * (255-black)) / 255; 
+            int B = ((255-yellow) * (255-black)) / 255;
+            return new int[] {R,G,B};
+        } else {
+            int R = 255 - cyan;
+            int G = 255 - magenta;
+            int B = 255 - yellow;
+            return new int[] {R,G,B};
+        }
+    }
 }

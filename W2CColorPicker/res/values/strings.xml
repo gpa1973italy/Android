@@ -11,5 +11,6 @@
     <string name="checkboxLockRGB">Blocca canali RGB</string>
     <string name="RGB_HEX">RGB in esadecimale</string>
     <string name="RGB_HEX_Result"></string>
+    <string name="title_activity_prefs">PrefsActivity</string>
 
 </resources>
