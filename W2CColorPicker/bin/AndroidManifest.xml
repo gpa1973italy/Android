@@ -26,6 +26,16 @@
             android:name="com.woodstocoasts.w2ccolorpicker.PrefsActivity"
             android:label="@string/title_activity_prefs" >
         </activity>
+        <activity
+            android:name="com.woodstocoasts.w2ccolorpicker.SplashScreen"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_splash_screen"
+            android:theme="@style/FullscreenTheme" >
+        </activity>
+        <activity
+            android:name="com.woodstocoasts.w2ccolorpicker.ColorBrowser"
+            android:label="@string/title_activity_color_browser" >
+        </activity>
     </application>
 
 </manifest>

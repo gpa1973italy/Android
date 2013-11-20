@@ -12,7 +12,7 @@ public class DBHelper extends SQLiteOpenHelper{
 
     
     public static final String TABLE_COLORS = "Colors";
-    public static final String COLUMN_COLORS_ID = "ID";
+    public static final String COLUMN_COLORS_ID = "_id";
     public static final String COLUMN_COLORS_ColorGroup = "ColorGroup";
     public static final String COLUMN_COLORS_ColorName = "ColorName";
     public static final String COLUMN_COLORS_Red = "Red";
@@ -20,7 +20,7 @@ public class DBHelper extends SQLiteOpenHelper{
     public static final String COLUMN_COLORS_Blue = "Blue";
 
     public static final String TABLE_COLORSGROUP = "ColorsGroup";
-    public static final String COLUMN_COLORSGROUP_ID = "ID";
+    public static final String COLUMN_COLORSGROUP_ID = "_id";
     public static final String COLUMN_COLORSGROUP_ColorGroup = "ColorGroupName";
     
     
@@ -39,11 +39,11 @@ public class DBHelper extends SQLiteOpenHelper{
 					+ COLUMN_COLORS_Green + " NUMERIC, " 
 					+ COLUMN_COLORS_Blue + " NUMERIC);"
 					+ "CREATE TABLE IF NOT EXISTS " + TABLE_COLORSGROUP + " ("
-					+ COLUMN_COLORSGROUP_ID + " INTEGER PRIMARY KEY, " 
+					+ COLUMN_COLORSGROUP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " 
 					+ COLUMN_COLORSGROUP_ColorGroup + " TEXT);";
     
     private static final String DATABASE_CREATE_2 = "CREATE TABLE IF NOT EXISTS " + TABLE_COLORSGROUP + " ("
-			+ COLUMN_COLORSGROUP_ID + " INTEGER PRIMARY KEY, " 
+			+ COLUMN_COLORSGROUP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " 
 			+ COLUMN_COLORSGROUP_ColorGroup + " TEXT);";
 	
 	

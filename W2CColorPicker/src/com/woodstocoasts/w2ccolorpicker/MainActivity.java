@@ -2,6 +2,7 @@ package com.woodstocoasts.w2ccolorpicker;
 
 import java.util.ArrayList;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.LoaderManager;
@@ -9,13 +10,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,10 +24,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.CursorAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
@@ -72,6 +69,16 @@ public class MainActivity extends Activity implements
 		// SharedPreferences prefs = getSharedPreferences("MY_PREFERENCES",
 		// Context.MODE_PRIVATE);
 
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		boolean sino = prefs.getBoolean("ShowSplashScreenAtStartup", false);
+		
+		boolean already_showed = false;
+		if (sino && !already_showed) {
+			already_showed = true;
+			Intent i = new Intent(getApplicationContext(), SplashScreen.class);
+			startActivity(i);
+		}
+		
 		tvColorSample = (TextView) findViewById(R.id.textViewColorSample);
 		tvHEX = (TextView) findViewById(R.id.textViewRGBHValues);
 
@@ -79,6 +86,9 @@ public class MainActivity extends Activity implements
 		etGreenValue = (EditText) findViewById(R.id.editTextGValue);
 		etBlueValue = (EditText) findViewById(R.id.editTextBValue);
 
+	
+		
+		
 		cbLockRGB = (CheckBox) findViewById(R.id.checkBoxLockRGB);
 
 		sbRed = (SeekBar) findViewById(R.id.seekBarRed);
@@ -439,6 +449,11 @@ public class MainActivity extends Activity implements
 		case R.id.action_settings:
 			Intent i = new Intent(this, PrefsActivity.class);
 			startActivityForResult(i, 0);
+			return true;
+			
+		case R.id.color_browser:
+			Intent i2 = new Intent(this, ColorBrowser.class);
+			startActivityForResult(i2, 0);
 			return true;
 		}
 		return false;
