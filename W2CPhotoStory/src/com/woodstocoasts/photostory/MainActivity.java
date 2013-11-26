@@ -1,7 +1,5 @@
 package com.woodstocoasts.photostory;
 
-
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
@@ -15,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import java.util.Calendar;
 
 public class MainActivity extends Activity {
 
@@ -71,6 +70,7 @@ public class MainActivity extends Activity {
 			     getApplicationContext().startActivity(i);
 			     */
 				
+				/*
 				// A date-time specified in milliseconds since the epoch.
 				long startMillis = 0;
 		
@@ -80,6 +80,16 @@ public class MainActivity extends Activity {
 				Intent intent = new Intent(Intent.ACTION_VIEW)
 				    .setData(builder.build());
 				startActivity(intent);
+				*/
+				
+				Calendar today = Calendar.getInstance();
+
+	            Uri uriCalendar = Uri.parse("content://com.android.calendar/time/" + String.valueOf(today.getTimeInMillis()));
+	            Intent intentCalendar = new Intent(Intent.ACTION_VIEW,uriCalendar);
+
+	            //Use the native calendar app to view the date
+	            startActivity(intentCalendar);
+				
 			}
 		});
 		

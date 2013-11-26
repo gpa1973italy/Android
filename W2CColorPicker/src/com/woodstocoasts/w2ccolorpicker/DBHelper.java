@@ -18,6 +18,7 @@ public class DBHelper extends SQLiteOpenHelper{
     public static final String COLUMN_COLORS_Red = "Red";
     public static final String COLUMN_COLORS_Green = "Green";
     public static final String COLUMN_COLORS_Blue = "Blue";
+    public static final String COLUMN_COLORS_Hex = "Hex";
 
     public static final String TABLE_COLORSGROUP = "ColorsGroup";
     public static final String COLUMN_COLORSGROUP_ID = "_id";
@@ -37,7 +38,9 @@ public class DBHelper extends SQLiteOpenHelper{
 					+ COLUMN_COLORS_ColorName + " TEXT, " 
 					+ COLUMN_COLORS_Red + " NUMERIC, " 
 					+ COLUMN_COLORS_Green + " NUMERIC, " 
-					+ COLUMN_COLORS_Blue + " NUMERIC);"
+					+ COLUMN_COLORS_Blue + " NUMERIC, "
+					+ COLUMN_COLORS_Hex + " TEXT);"
+					
 					+ "CREATE TABLE IF NOT EXISTS " + TABLE_COLORSGROUP + " ("
 					+ COLUMN_COLORSGROUP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " 
 					+ COLUMN_COLORSGROUP_ColorGroup + " TEXT);";
@@ -72,7 +75,7 @@ public class DBHelper extends SQLiteOpenHelper{
 
 	
 		for (ColorElement ce: ColorElement.DB){
-				db.execSQL("INSERT INTO " + TABLE_COLORS + " (" + COLUMN_COLORS_ColorGroup + ", " + COLUMN_COLORS_ColorName + ", " + COLUMN_COLORS_Red + ", " + COLUMN_COLORS_Green + ", " + COLUMN_COLORS_Blue + ") VALUES(" + ce.getColorGroup() + ", '" + ce.getColorName() + "', " + ce.getRed() + ", " + ce.getGreen() + ", " + ce.getBlue() + ");");	
+				db.execSQL("INSERT INTO " + TABLE_COLORS + " (" + COLUMN_COLORS_ColorGroup + ", " + COLUMN_COLORS_ColorName + ", " + COLUMN_COLORS_Red + ", " + COLUMN_COLORS_Green + ", " + COLUMN_COLORS_Blue + ", " + COLUMN_COLORS_Hex + " ) VALUES(" + ce.getColorGroup() + ", '" + ce.getColorName() + "', " + ce.getRed() + ", " + ce.getGreen() + ", " + ce.getBlue() + ", null);");	
 		}
 		
 		//db.execSQL("INSERT INTO " + TABLE_COLORS + " VALUES(1, 'CSS3', 'NERO', 0,0,0);");

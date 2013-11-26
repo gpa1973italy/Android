@@ -36,32 +36,35 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int rectangle=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0018;
-        public static final int checkBoxLockRGB=0x7f0a000b;
-        public static final int color_browser=0x7f0a0019;
-        public static final int dummy_button=0x7f0a0012;
-        public static final int editTextBValue=0x7f0a000a;
-        public static final int editTextGValue=0x7f0a0009;
-        public static final int editTextRValue=0x7f0a0008;
-        public static final int fullscreen_content=0x7f0a0010;
-        public static final int fullscreen_content_controls=0x7f0a0011;
-        public static final int linearLayout1=0x7f0a0003;
-        public static final int linearLayout2=0x7f0a000e;
-        public static final int listViewColors=0x7f0a000f;
-        public static final int lvColors=0x7f0a0001;
-        public static final int myScreenBG=0x7f0a0002;
-        public static final int seekBarBlue=0x7f0a0007;
-        public static final int seekBarGreen=0x7f0a0005;
-        public static final int seekBarRed=0x7f0a0006;
-        public static final int textViewColorSample=0x7f0a0004;
-        public static final int textViewRGBH=0x7f0a000c;
-        public static final int textViewRGBHValues=0x7f0a000d;
-        public static final int tvItemColorB=0x7f0a0017;
-        public static final int tvItemColorG=0x7f0a0016;
-        public static final int tvItemColorHex=0x7f0a0014;
-        public static final int tvItemColorName=0x7f0a0013;
-        public static final int tvItemColorR=0x7f0a0015;
-        public static final int tvItemRGBSampleColor=0x7f0a0000;
+        public static final int action_settings=0x7f0a001b;
+        public static final int checkBoxLockRGB=0x7f0a000c;
+        public static final int color_browser=0x7f0a001c;
+        public static final int dummy_button=0x7f0a0013;
+        public static final int editTextBValue=0x7f0a000b;
+        public static final int editTextGValue=0x7f0a000a;
+        public static final int editTextRValue=0x7f0a0009;
+        public static final int fullscreen_content=0x7f0a0011;
+        public static final int fullscreen_content_controls=0x7f0a0012;
+        public static final int linearLayout1=0x7f0a0004;
+        public static final int linearLayout2=0x7f0a000f;
+        public static final int listViewColors=0x7f0a0010;
+        public static final int lvColors=0x7f0a0002;
+        public static final int myScreenBG=0x7f0a0003;
+        public static final int seekBarBlue=0x7f0a0008;
+        public static final int seekBarGreen=0x7f0a0006;
+        public static final int seekBarRed=0x7f0a0007;
+        public static final int spinnerColorGroups=0x7f0a0001;
+        public static final int textViewColorSample=0x7f0a0005;
+        public static final int textViewRGBH=0x7f0a000d;
+        public static final int textViewRGBHValues=0x7f0a000e;
+        public static final int tvItemColorB=0x7f0a0018;
+        public static final int tvItemColorG=0x7f0a0017;
+        public static final int tvItemColorGroupID=0x7f0a0019;
+        public static final int tvItemColorGroupName=0x7f0a001a;
+        public static final int tvItemColorHex=0x7f0a0015;
+        public static final int tvItemColorName=0x7f0a0014;
+        public static final int tvItemColorR=0x7f0a0016;
+        public static final int tvMessage=0x7f0a0000;
     }
     public static final class layout {
         public static final int activity_color_browser=0x7f030000;
@@ -69,6 +72,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int activity_prefs=0x7f030002;
         public static final int activity_splash_screen=0x7f030003;
         public static final int lv_color_child=0x7f030004;
+        public static final int lv_color_group_child=0x7f030005;
     }
     public static final class menu {
         public static final int color_browser=0x7f090000;
@@ -88,6 +92,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int dummy_content=0x7f07000d;
         public static final int hello_world=0x7f070002;
         public static final int imgshpcolorpreview=0x7f070004;
+        public static final int select_the_palette_type_=0x7f070010;
         public static final int textview=0x7f07000f;
         public static final int title_activity_color_browser=0x7f07000e;
         public static final int title_activity_prefs=0x7f07000a;

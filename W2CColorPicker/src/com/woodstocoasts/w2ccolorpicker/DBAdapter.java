@@ -106,7 +106,7 @@ public class DBAdapter {
      * @return
      */
     public Cursor fetchColorsByGroup(int iGroupFilter){
-    	Cursor myCursor = database.query(DBHelper.TABLE_COLORS, new String[] {DBHelper.COLUMN_COLORS_ID, DBHelper.COLUMN_COLORS_ColorGroup, DBHelper.COLUMN_COLORS_ColorName, DBHelper.COLUMN_COLORS_Red, DBHelper.COLUMN_COLORS_Green, DBHelper.COLUMN_COLORS_Blue}, 
+    	Cursor myCursor = database.query(DBHelper.TABLE_COLORS, new String[] {DBHelper.COLUMN_COLORS_ID, DBHelper.COLUMN_COLORS_ColorGroup, DBHelper.COLUMN_COLORS_ColorName, DBHelper.COLUMN_COLORS_Red, DBHelper.COLUMN_COLORS_Green, DBHelper.COLUMN_COLORS_Blue,  DBHelper.COLUMN_COLORS_Hex}, 
     			DBHelper.COLUMN_COLORS_ColorGroup + " = " + Integer.toString(iGroupFilter), null, null, null, null); 
     	
     	return myCursor;

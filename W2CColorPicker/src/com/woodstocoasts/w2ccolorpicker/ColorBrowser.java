@@ -8,86 +8,73 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.SimpleCursorAdapter.ViewBinder;
+import android.widget.Toast;
 
 @SuppressLint("NewApi")
 public class ColorBrowser extends Activity {
 
 	SimpleCursorAdapter adapter;
 	ListView lvColors;
+	Spinner spColorGroups;
 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_color_browser);
-		
+
 		DBAdapter databaseHelper = new DBAdapter(getApplicationContext());
 		databaseHelper.open();
-		Cursor c = databaseHelper.fetchColorsByGroup(1);
-		
-		lvColors = (ListView) findViewById(R.id.lvColors);
-		
+
+		Cursor c = databaseHelper.fetchAllColorsGroups();
+
+		Spinner spColorGroups = (Spinner) findViewById(R.id.spinnerColorGroups);
+
 		if (c.moveToFirst()) {
-			adapter = new SimpleCursorAdapter(this, R.layout.lv_color_child, c, 
-					new String[] {DBHelper.COLUMN_COLORS_ID, DBHelper.COLUMN_COLORS_ColorName, DBHelper.COLUMN_COLORS_Red, DBHelper.COLUMN_COLORS_Green, DBHelper.COLUMN_COLORS_Blue}, 
-					new int[] {R.id.tvItemRGBSampleColor, R.id.tvItemColorName, R.id.tvItemColorR, R.id.tvItemColorG, R.id.tvItemColorB}, 0);
-			
-			/*
-			 	"#" + String.format("%02X", r) + String.format("%02X", g) + String.format("%02X", b)
-			 */
-			
-			/*
+			adapter = new SimpleCursorAdapter(this,
+					R.layout.lv_color_group_child, c, new String[] {
+							DBHelper.COLUMN_COLORSGROUP_ColorGroup,
+							DBHelper.COLUMN_COLORSGROUP_ID }, new int[] {
+							R.id.tvItemColorGroupName,R.id.tvItemColorGroupID }, 0);
+		}
+
+		spColorGroups.setAdapter(adapter);
+
+		/*
+		c = null;
+
+		c = databaseHelper.fetchColorsByGroup(1);
+		lvColors = (ListView) findViewById(R.id.lvColors);
+
+		if (c.moveToFirst()) {
+			adapter = new SimpleCursorAdapter(this, R.layout.lv_color_child, c,
+					new String[] { DBHelper.COLUMN_COLORS_ID,
+							DBHelper.COLUMN_COLORS_ColorName,
+							DBHelper.COLUMN_COLORS_Red,
+							DBHelper.COLUMN_COLORS_Green,
+							DBHelper.COLUMN_COLORS_Blue,
+							DBHelper.COLUMN_COLORS_Hex
+							}, new int[] {
+							R.id.tvMessage, R.id.tvItemColorName,
+							R.id.tvItemColorR, R.id.tvItemColorG,
+							R.id.tvItemColorB,
+							R.id.tvItemColorHex
+							}, 0);
+
 			adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
-				
+
 				@Override
-				public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+				public boolean setViewValue(View view, Cursor cursor,
+						int columnIndex) {
 					// TODO Auto-generated method stub
-					
-					String name = cursor.getColumnName(columnIndex);
-					 if ("_id".equals(name)) {
-				            int color = cursor.getInt(columnIndex);
-				            view.setBackgroundColor(Color.rgb(color, color, color));
-				            //view.findViewById(R.id.tvItemRGBSampleColor).setBackgroundColor(Color.rgb(color, color, color));
-				            return true;
-				        }
-					
-					return false;
-				}
-			});
-			*/
-			
-		adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
-				
-				@Override
-				public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
-					// TODO Auto-generated method stub
-					  
-					/*
-					if(view.getId() == R.id.tvItemRGBSampleColor)
-					    {             
-						  view.setBackgroundColor(Color.rgb(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Red)), cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Green)), cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Blue))));
-						  //Log.v("LVGPA", "#" + String.format("%02X",cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Red)))+ String.format("%02X", cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Green))) + String.format("%02X", cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Blue))));
-						  return true;
-					    }
-					  else if(view.getId() == R.id.tvItemColorHex)
-					    {             
-						  // "#" + String.format("%02X", r)
-						  TextView tv = (TextView) view;
-						  Log.v("LVGPA", "#" + String.format("%02X",cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Red)))+ String.format("%02X", cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Green))) + String.format("%02X", cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Blue))));
-						  tv.setText( "#" + String.format("%02X",cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Red)))+ String.format("%02X", cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Green))) + String.format("%02X", cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Blue))));
-					    return true;
-					    }
-					  
-					  
-					  //Log.v("LVGPA", view.toString());
-*/	
-						boolean ii = false;
-					switch (view.getId()) {
-					case R.id.tvItemRGBSampleColor:
+					Log.v("GPA", "" + columnIndex);
+					switch (columnIndex) {
+					case 0:
 						view.setBackgroundColor(Color.rgb(
 								cursor.getInt(cursor
 										.getColumnIndex(DBHelper.COLUMN_COLORS_Red)),
@@ -95,34 +82,59 @@ public class ColorBrowser extends Activity {
 										.getColumnIndex(DBHelper.COLUMN_COLORS_Green)),
 								cursor.getInt(cursor
 										.getColumnIndex(DBHelper.COLUMN_COLORS_Blue))));
-					//	return true;
-						ii = true;
-					case R.id.tvItemColorHex:
-						TextView tv = (TextView) view;
-						tv.setText("#" + String.format("%02X",cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Red)))+ String.format("%02X", cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Green))) + String.format("%02X", cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Blue))));
-					//	return true;
+						TextView t1 = (TextView) view;
+						t1.setText(Integer.toString(cursor.getInt(cursor
+								.getColumnIndex(DBHelper.COLUMN_COLORS_ID))));
+						return true;
 
-					return true && ii;
+						 case 6:
+						 TextView tv3 = (TextView) view;
+						tv3.setText("#" +
+						 String.format("%02X",cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Red)))+
+					 String.format("%02X",
+					 cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Green)))
+					 + String.format("%02X",
+					 cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Blue))));
+						return true;
+					
 					}
 
-					//return false;
+					// return false;
 					return false;
 				}
 			});
 
 			
-			
 			lvColors.setAdapter(adapter);
-		}
-		else
-		{
+		} else {
 			// siccome il movetofirst presuppone ci sia almeno un elemento...
 			lvColors.setAdapter(null);
 		}
-		//c.close();
+		// c.close();
 		databaseHelper.close();
-
+		*/
 		
+		spColorGroups.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> adapter, View view,
+					int pos, long id) {
+				// TODO Auto-generated method stub
+					TextView s = (TextView)view.findViewById(R.id.tvItemColorGroupID);
+				
+				Toast.makeText(getApplicationContext(), "Ecco\n\n"+s.getText().toString(), Toast.LENGTH_LONG).show();
+				
+				FillList(Integer.parseInt(s.getText().toString()));
+				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> adapter) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+
 	}
 
 	@Override
@@ -131,5 +143,81 @@ public class ColorBrowser extends Activity {
 		getMenuInflater().inflate(R.menu.color_browser, menu);
 		return true;
 	}
+	
+	
+	public void FillList (int i){
+
+		DBAdapter databaseHelper = new DBAdapter(getApplicationContext());
+		databaseHelper.open();
+		
+		Cursor c = databaseHelper.fetchColorsByGroup(i);
+		
+		lvColors = (ListView) findViewById(R.id.lvColors);
+
+		if (c.moveToFirst()) {
+			adapter = new SimpleCursorAdapter(this, R.layout.lv_color_child, c,
+					new String[] { DBHelper.COLUMN_COLORS_ID,
+							DBHelper.COLUMN_COLORS_ColorName,
+							DBHelper.COLUMN_COLORS_Red,
+							DBHelper.COLUMN_COLORS_Green,
+							DBHelper.COLUMN_COLORS_Blue,
+							DBHelper.COLUMN_COLORS_Hex
+							}, new int[] {
+							R.id.tvMessage, R.id.tvItemColorName,
+							R.id.tvItemColorR, R.id.tvItemColorG,
+							R.id.tvItemColorB,
+							R.id.tvItemColorHex
+							}, 0);
+
+			adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+
+				@Override
+				public boolean setViewValue(View view, Cursor cursor,
+						int columnIndex) {
+					// TODO Auto-generated method stub
+					Log.v("GPA", "" + columnIndex);
+					switch (columnIndex) {
+					case 0:
+						view.setBackgroundColor(Color.rgb(
+								cursor.getInt(cursor
+										.getColumnIndex(DBHelper.COLUMN_COLORS_Red)),
+								cursor.getInt(cursor
+										.getColumnIndex(DBHelper.COLUMN_COLORS_Green)),
+								cursor.getInt(cursor
+										.getColumnIndex(DBHelper.COLUMN_COLORS_Blue))));
+						TextView t1 = (TextView) view;
+						t1.setText(Integer.toString(cursor.getInt(cursor
+								.getColumnIndex(DBHelper.COLUMN_COLORS_ID))));
+						return true;
+
+						 case 6:
+						 TextView tv3 = (TextView) view;
+						tv3.setText("#" +
+						 String.format("%02X",cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Red)))+
+					 String.format("%02X",
+					 cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Green)))
+					 + String.format("%02X",
+					 cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COLORS_Blue))));
+						return true;
+					
+					}
+
+					// return false;
+					return false;
+				}
+			});
+
+			
+			lvColors.setAdapter(adapter);
+		} else {
+			// siccome il movetofirst presuppone ci sia almeno un elemento...
+			lvColors.setAdapter(null);
+		}
+		// c.close();
+		databaseHelper.close();
+		
+		
+	}
+	
 
 }

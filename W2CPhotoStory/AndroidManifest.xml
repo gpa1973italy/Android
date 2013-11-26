@@ -3,7 +3,7 @@
     package="com.woodstocoasts.photostory"
     android:versionCode="1"
     android:versionName="1.0" >
-
+	<uses-feature android:name="android.hardware.camera"/>
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="18" />
@@ -13,6 +13,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        
         <activity
             android:name="com.woodstocoasts.photostory.MainActivity"
             android:label="@string/app_name" >
@@ -27,5 +28,5 @@
             android:label="@string/title_activity_prefs" >
         </activity>
     </application>
-
+	
 </manifest>
