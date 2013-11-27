@@ -28,34 +28,38 @@ public final class R {
         public static final int btn_phone=0x7f020004;
         public static final int btn_photo=0x7f020005;
         public static final int ic_launcher=0x7f020006;
-        public static final int tb_back=0x7f020007;
-        public static final int tb_back_focused=0x7f020008;
-        public static final int tb_back_pressed=0x7f020009;
-        public static final int tb_calendar=0x7f02000a;
-        public static final int tb_calendar_focused=0x7f02000b;
-        public static final int tb_calendar_pressed=0x7f02000c;
-        public static final int tb_maps=0x7f02000d;
-        public static final int tb_maps_focused=0x7f02000e;
-        public static final int tb_maps_pressed=0x7f02000f;
-        public static final int tb_menu=0x7f020010;
-        public static final int tb_menu_focused=0x7f020011;
-        public static final int tb_menu_pressed=0x7f020012;
-        public static final int tb_phone=0x7f020013;
-        public static final int tb_phone_focused=0x7f020014;
-        public static final int tb_phone_pressed=0x7f020015;
-        public static final int tb_photo=0x7f020016;
-        public static final int tb_photo_focused=0x7f020017;
-        public static final int tb_photo_pressed=0x7f020018;
+        public static final int main_bg_gradient=0x7f020007;
+        public static final int tb_back=0x7f020008;
+        public static final int tb_back_focused=0x7f020009;
+        public static final int tb_back_pressed=0x7f02000a;
+        public static final int tb_calendar=0x7f02000b;
+        public static final int tb_calendar_focused=0x7f02000c;
+        public static final int tb_calendar_pressed=0x7f02000d;
+        public static final int tb_maps=0x7f02000e;
+        public static final int tb_maps_focused=0x7f02000f;
+        public static final int tb_maps_pressed=0x7f020010;
+        public static final int tb_menu=0x7f020011;
+        public static final int tb_menu_focused=0x7f020012;
+        public static final int tb_menu_pressed=0x7f020013;
+        public static final int tb_phone=0x7f020014;
+        public static final int tb_phone_focused=0x7f020015;
+        public static final int tb_phone_pressed=0x7f020016;
+        public static final int tb_photo=0x7f020017;
+        public static final int tb_photo_focused=0x7f020018;
+        public static final int tb_photo_pressed=0x7f020019;
     }
     public static final class id {
-        public static final int action_settings=0x7f090007;
+        public static final int action_settings=0x7f09000a;
+        public static final int button1=0x7f090006;
+        public static final int button2=0x7f090007;
+        public static final int button3=0x7f090008;
         public static final int tbBtnBack=0x7f090000;
         public static final int tbBtnCalendar=0x7f090004;
         public static final int tbBtnDial=0x7f090002;
         public static final int tbBtnMainApp=0x7f090001;
         public static final int tbBtnMaps=0x7f090005;
         public static final int tbBtnPhoto=0x7f090003;
-        public static final int textView1=0x7f090006;
+        public static final int textView1=0x7f090009;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -68,8 +72,17 @@ public final class R {
     public static final class string {
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
+        public static final int gestione_album=0x7f06000c;
         public static final int hello_world=0x7f060002;
+        public static final int scatta_foto=0x7f06000a;
         public static final int title_activity_prefs=0x7f060003;
+        public static final int toolbarback=0x7f060004;
+        public static final int toolbarcalendar=0x7f060008;
+        public static final int toolbarmaps=0x7f060009;
+        public static final int toolbarmenu=0x7f060005;
+        public static final int toolbarphone=0x7f060006;
+        public static final int toolbarphoto=0x7f060007;
+        public static final int vedi_galleria=0x7f06000b;
     }
     public static final class style {
         /** 

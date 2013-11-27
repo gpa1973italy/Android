@@ -1,100 +1,129 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
-    android:orientation="horizontal"
-    tools:context=".MainActivity"
-    android:background="@android:color/darker_gray"
-     >
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
 
-    <ImageButton
-        android:id="@+id/tbBtnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_gravity="top|center_horizontal"
-        android:layout_weight="1"
-        android:contentDescription="toolBarBack"
-        android:paddingBottom="0dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp"
-        android:paddingTop="0dp"
-        android:src="@drawable/btn_back" 
-        android:background="@android:color/transparent"
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="@android:color/darker_gray"
+        android:orientation="horizontal" >
 
-    <ImageButton
-        android:id="@+id/tbBtnMainApp"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_gravity="top|center_vertical|center_horizontal"
-        android:layout_weight="1"
-        android:contentDescription="toolBarMenu"
-        android:paddingBottom="0dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp"
-        android:paddingTop="0dp"
-        android:src="@drawable/btn_menu" 
-        android:background="@android:color/transparent"
-        />
+        <ImageButton
+            android:id="@+id/tbBtnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/toolbarback"
+            android:paddingBottom="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingTop="0dp"
+            android:src="@drawable/btn_back" />
 
-    <ImageButton
-        android:id="@+id/tbBtnDial"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_gravity="top|center_vertical|center_horizontal"
-        android:layout_weight="1"
-        android:contentDescription="toolBarPhone"
-        android:paddingBottom="0dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp"
-        android:paddingTop="0dp"
-        android:src="@drawable/btn_phone"
-        android:background="@android:color/transparent"
-         />
+        <ImageButton
+            android:id="@+id/tbBtnMainApp"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="top|center_vertical|center_horizontal"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/toolbarmenu"
+            android:paddingBottom="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingTop="0dp"
+            android:src="@drawable/btn_menu" />
 
-    <ImageButton
-        android:id="@+id/tbBtnPhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_gravity="top|center_vertical|center_horizontal"
-        android:layout_weight="1"
-        android:contentDescription="toolBarPhoto"
-        android:paddingBottom="0dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp"
-        android:paddingTop="0dp"
-        android:src="@drawable/btn_photo"
-        android:background="@android:color/transparent"
-         />
+        <ImageButton
+            android:id="@+id/tbBtnDial"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="top|center_vertical|center_horizontal"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/toolbarphone"
+            android:paddingBottom="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingTop="0dp"
+            android:src="@drawable/btn_phone" />
 
-    <ImageButton
-        android:id="@+id/tbBtnCalendar"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_gravity="top|center_vertical|center_horizontal"
-        android:layout_weight="1"
-        android:contentDescription="toolBarCalendar"
-        android:paddingBottom="0dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp"
-        android:paddingTop="0dp"
-        android:src="@drawable/btn_calendar"
-        android:background="@android:color/transparent"
-         />
+        <ImageButton
+            android:id="@+id/tbBtnPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="top|center_vertical|center_horizontal"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/toolbarphoto"
+            android:paddingBottom="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingTop="0dp"
+            android:src="@drawable/btn_photo" />
 
-    <ImageButton
-        android:id="@+id/tbBtnMaps"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_gravity="top|center_vertical|center_horizontal"
-        android:layout_weight="1"
-        android:contentDescription="toolBarMaps"
-        android:paddingBottom="0dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp"
-        android:paddingTop="0dp"
-        android:src="@drawable/btn_maps"
-        android:background="@android:color/transparent"
-         />
+        <ImageButton
+            android:id="@+id/tbBtnCalendar"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="top|center_vertical|center_horizontal"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/toolbarcalendar"
+            android:paddingBottom="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingTop="0dp"
+            android:src="@drawable/btn_calendar" />
+
+        <ImageButton
+            android:id="@+id/tbBtnMaps"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="top|center_vertical|center_horizontal"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/toolbarmaps"
+            android:paddingBottom="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingTop="0dp"
+            android:src="@drawable/btn_maps" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/main_bg_gradient" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/scatta_foto" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/vedi_galleria" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gestione_album" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

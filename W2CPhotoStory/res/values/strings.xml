@@ -5,5 +5,14 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_prefs">PrefsActivity</string>
+    <string name="toolbarback">toolBarBack</string>
+    <string name="toolbarmenu">toolBarMenu</string>
+    <string name="toolbarphone">toolBarPhone</string>
+    <string name="toolbarphoto">toolBarPhoto</string>
+    <string name="toolbarcalendar">toolBarCalendar</string>
+    <string name="toolbarmaps">toolBarMaps</string>
+    <string name="scatta_foto">Scatta foto</string>
+    <string name="vedi_galleria">Vedi galleria</string>
+    <string name="gestione_album">Gestione Album</string>
 
 </resources>

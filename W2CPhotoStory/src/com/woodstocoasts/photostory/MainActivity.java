@@ -2,27 +2,35 @@ package com.woodstocoasts.photostory;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.provider.CalendarContract;
+import android.provider.MediaStore;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentUris;
+import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.database.Cursor;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import java.util.Calendar;
 
 public class MainActivity extends Activity {
-
+	int IMAGE_CAPTURE;
+	static final String TAG = "W2CPhotoStory";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		ImageButton mTbBtnBack = (ImageButton) findViewById(R.id.tbBtnBack);
 		ImageButton mTbBtnMainApp = (ImageButton) findViewById(R.id.tbBtnMainApp);
 		ImageButton mTbBtnDial = (ImageButton) findViewById(R.id.tbBtnDial);
@@ -30,96 +38,139 @@ public class MainActivity extends Activity {
 		ImageButton mTbBtnCalendar = (ImageButton) findViewById(R.id.tbBtnCalendar);
 		ImageButton mTbBtnMaps = (ImageButton) findViewById(R.id.tbBtnMaps);
 
-		
-		mTbBtnDial.setOnClickListener(new OnClickListener() {
-			
+		Button mTakePic = (Button) findViewById(R.id.button1);
+		mTakePic.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent dial = new Intent();
-				dial.setAction("android.intent.action.DIAL");
-				dial.setData(Uri.parse("tel:"));
-				startActivity(dial); 
-				Toast.makeText(getApplicationContext(), "CIAO", Toast.LENGTH_LONG).show();
+				VibrateAlert();
+				Intent takePictureIntent = new Intent(
+						MediaStore.ACTION_IMAGE_CAPTURE);
+				startActivityForResult(takePictureIntent, IMAGE_CAPTURE);
+
 			}
 		});
-		
+
+		mTbBtnDial.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				VibrateAlert();
+				try {
+
+					Intent dial = new Intent();
+					dial.setAction("android.intent.action.DIAL");
+					dial.setData(Uri.parse("tel:"));
+					startActivity(dial);
+				} catch (Exception e) {
+					Toast.makeText(getApplicationContext(),
+							"Chiamata non disponibile", Toast.LENGTH_LONG)
+							.show();
+					Log.v(TAG,
+							"Starting Intent CallNumber Error: \n"
+									+ e.getMessage());
+
+				}
+			}
+		});
+
 		mTbBtnCalendar.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			@SuppressLint("NewApi")
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				
+				VibrateAlert();
 				/*
-				//all version of android
-			     Intent i = new Intent();
+				 * //all version of android Intent i = new Intent();
+				 * 
+				 * // mimeType will popup the chooser any for any implementing
+				 * application (e.g. the built in calendar or applications such
+				 * as "Business calendar"
+				 * i.setType("vnd.android.cursor.item/event");
+				 * i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				 * 
+				 * // the time the event should start in millis. This example
+				 * uses now as the start time and ends in 1 hour
+				 * //i.putExtra("beginTime", item.getBegin());
+				 * //i.putExtra("endTime", item.getEnd()); //i.putExtra("_id",
+				 * item.getId());
+				 * 
+				 * 
+				 * // the action //i.setAction(Intent.ACTION_PICK);
+				 * getApplicationContext().startActivity(i);
+				 */
 
-			     // mimeType will popup the chooser any  for any implementing application (e.g. the built in calendar or applications such as "Business calendar"
-			     i.setType("vnd.android.cursor.item/event");
-			     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
-
-			     // the time the event should start in millis. This example uses now as the start time and ends in 1 hour
-			     //i.putExtra("beginTime", item.getBegin()); 
-			     //i.putExtra("endTime", item.getEnd());
-			     //i.putExtra("_id", item.getId());
-
-
-			     // the action
-			     //i.setAction(Intent.ACTION_PICK);
-			     getApplicationContext().startActivity(i);
-			     */
-				
 				/*
-				// A date-time specified in milliseconds since the epoch.
-				long startMillis = 0;
-		
-				Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
-				builder.appendPath("time");
-				ContentUris.appendId(builder, startMillis);
-				Intent intent = new Intent(Intent.ACTION_VIEW)
-				    .setData(builder.build());
-				startActivity(intent);
-				*/
-				
-				Calendar today = Calendar.getInstance();
+				 * // A date-time specified in milliseconds since the epoch.
+				 * long startMillis = 0;
+				 * 
+				 * Uri.Builder builder =
+				 * CalendarContract.CONTENT_URI.buildUpon();
+				 * builder.appendPath("time"); ContentUris.appendId(builder,
+				 * startMillis); Intent intent = new Intent(Intent.ACTION_VIEW)
+				 * .setData(builder.build()); startActivity(intent);
+				 */
 
-	            Uri uriCalendar = Uri.parse("content://com.android.calendar/time/" + String.valueOf(today.getTimeInMillis()));
-	            Intent intentCalendar = new Intent(Intent.ACTION_VIEW,uriCalendar);
+				try {
+					Calendar today = Calendar.getInstance();
 
-	            //Use the native calendar app to view the date
-	            startActivity(intentCalendar);
-				
+					Uri uriCalendar = Uri
+							.parse("content://com.android.calendar/time/"
+									+ String.valueOf(today.getTimeInMillis()));
+					Intent intentCalendar = new Intent(Intent.ACTION_VIEW,
+							uriCalendar);
+
+					// Use the native calendar app to view the date
+					startActivity(intentCalendar);
+				} catch (Exception e) {
+					Toast.makeText(getApplicationContext(),
+							"Calendario non disponibile", Toast.LENGTH_LONG)
+							.show();
+					Log.v(TAG,
+							"Starting Intent Calendar Error: \n"
+									+ e.getMessage());
+				}
+
 			}
 		});
-		
-		
+
 		mTbBtnMaps.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				
-				//String uri = "geo:"+ latitude + "," + longitude;
-				//startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+
+				// String uri = "geo:"+ latitude + "," + longitude;
+				// startActivity(new Intent(android.content.Intent.ACTION_VIEW,
+				// Uri.parse(uri)));
 
 				// You can also choose to place a point like so:
-				// String uri = "geo:"+ latitude + "," + longitude + "?q=my+street+address";
-				String uri2 = "geo:?q=piazza puccini 26, firenze, italia";
-				startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri2)));
+				// String uri = "geo:"+ latitude + "," + longitude +
+				// "?q=my+street+address";
+				try {
+					String uri2 = "geo:?q=piazza puccini 26, firenze, italia";
+					startActivity(new Intent(
+							android.content.Intent.ACTION_VIEW, Uri.parse(uri2)));
+				} catch (Exception e) {
+					Toast.makeText(getApplicationContext(),
+							"Mappe non disponibili", Toast.LENGTH_LONG).show();
+					Log.v(TAG,
+							"Starting Intent Maps Error: \n" + e.getMessage());
 
-/*
-				*
-				* The Possible Query params options are the following:
-				*
-				* Show map at location: geo:latitude,longitude
-				* Show zoomed map at location: geo:latitude,longitude?z=zoom
-				* Show map at locaiton with point: geo:0,0?q=my+street+address
-				* Show map of businesses in area: geo:0,0?q=business+near+city
-*/
-				
-				
-				
+				}
+				/*
+				 * 
+				 * The Possible Query params options are the following:
+				 * 
+				 * Show map at location: geo:latitude,longitude Show zoomed map
+				 * at location: geo:latitude,longitude?z=zoom Show map at
+				 * locaiton with point: geo:0,0?q=my+street+address Show map of
+				 * businesses in area: geo:0,0?q=business+near+city
+				 */
+
 			}
 		});
 
@@ -131,7 +182,7 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -139,11 +190,68 @@ public class MainActivity extends Activity {
 			Intent i = new Intent(this, PrefsActivity.class);
 			startActivityForResult(i, 0);
 			return true;
-			
+
 		}
 		return false;
 
 	}
-	
+
+	// http://stackoverflow.com/questions/7282426/how-to-get-image-name-using-camera-intent-in-android
+	// http://developer.android.com/reference/android/app/Activity.html#startActivityForResult(android.content.Intent,
+	// int)
+	// http://developer.android.com/training/camera/photobasics.html
+	// http://developer.android.com/reference/android/util/SparseBooleanArray.html
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == IMAGE_CAPTURE) {
+			if (resultCode == RESULT_OK) {
+				Log.d(TAG, "Picture taken!!!");
+				// imageView.setImageURI(imageUri);
+				int k = getLastImageId();
+				Toast.makeText(getApplicationContext(), "" + String.valueOf(k),
+						Toast.LENGTH_LONG).show();
+
+			}
+		}
+	}
+
+	// http://stackoverflow.com/questions/7636697/get-path-and-filename-from-camera-intent-result
+	@SuppressLint("NewApi")
+	private int getLastImageId() {
+		final String[] imageColumns = { MediaStore.Images.Media._ID,
+				MediaStore.Images.Media.DATA };
+		final String imageOrderBy = MediaStore.Images.Media._ID + " DESC";
+		CursorLoader imageCursor = new CursorLoader(getApplicationContext(),
+				MediaStore.Images.Media.EXTERNAL_CONTENT_URI, imageColumns,
+				null, null, imageOrderBy);
+		Cursor c = imageCursor.loadInBackground();
+
+		if (c.moveToFirst()) {
+			int id = c.getInt(c.getColumnIndex(MediaStore.Images.Media._ID));
+			String fullPath = c.getString(c
+					.getColumnIndex(MediaStore.Images.Media.DATA));
+			Log.d(TAG, "getLastImageId::id " + id);
+			Log.d(TAG, "getLastImageId::path " + fullPath);
+			c.close();
+			return id;
+		} else {
+			return 0;
+		}
+	}
+
+	public void VibrateAlert() {
+		try {
+			Vibrator vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+			long[] vibpat = new long[] { 0, 1000, 0, 500 };
+
+			vib.vibrate(vibpat, 2);
+			// vib.vibrate(1000);
+
+			vib.cancel();
+		} catch (Exception e) {
+			Log.v(TAG, "Cannot vibrate! \n" + e.getMessage().toString());
+		}
+
+	}
 
 }
