@@ -1,12 +1,14 @@
 package com.woodstocoasts.photostory;
 
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.provider.CalendarContract;
 import android.provider.MediaStore;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.CursorLoader;
@@ -38,6 +40,8 @@ public class MainActivity extends Activity {
 		ImageButton mTbBtnCalendar = (ImageButton) findViewById(R.id.tbBtnCalendar);
 		ImageButton mTbBtnMaps = (ImageButton) findViewById(R.id.tbBtnMaps);
 
+		//mTbBtnPhoto.setImageResource(R.drawable.tb_photo_pressed);
+		
 		Button mTakePic = (Button) findViewById(R.id.button1);
 		mTakePic.setOnClickListener(new OnClickListener() {
 
@@ -52,6 +56,41 @@ public class MainActivity extends Activity {
 			}
 		});
 
+		
+		mTbBtnBack.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				VibrateAlert();
+				finish();
+			}
+		});
+		
+		
+		mTbBtnMainApp.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				VibrateAlert();
+				try {
+				Intent startMain = new Intent(Intent.ACTION_MAIN);
+				startMain.addCategory(Intent.CATEGORY_HOME);
+				startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(startMain);
+				}
+				catch (Exception e){
+					Toast.makeText(getApplicationContext(),
+							"Avvio Home Screen non disponibile", Toast.LENGTH_LONG)
+							.show();
+					Log.v(TAG,
+							"Starting Intent HomeScreen Error: \n"
+									+ e.getMessage());
+				}
+			}
+		});
+		
 		mTbBtnDial.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -76,6 +115,15 @@ public class MainActivity extends Activity {
 			}
 		});
 
+		mTbBtnPhoto.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				VibrateAlert();
+			}
+		});
+		
 		mTbBtnCalendar.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -83,36 +131,6 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				VibrateAlert();
-				/*
-				 * //all version of android Intent i = new Intent();
-				 * 
-				 * // mimeType will popup the chooser any for any implementing
-				 * application (e.g. the built in calendar or applications such
-				 * as "Business calendar"
-				 * i.setType("vnd.android.cursor.item/event");
-				 * i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				 * 
-				 * // the time the event should start in millis. This example
-				 * uses now as the start time and ends in 1 hour
-				 * //i.putExtra("beginTime", item.getBegin());
-				 * //i.putExtra("endTime", item.getEnd()); //i.putExtra("_id",
-				 * item.getId());
-				 * 
-				 * 
-				 * // the action //i.setAction(Intent.ACTION_PICK);
-				 * getApplicationContext().startActivity(i);
-				 */
-
-				/*
-				 * // A date-time specified in milliseconds since the epoch.
-				 * long startMillis = 0;
-				 * 
-				 * Uri.Builder builder =
-				 * CalendarContract.CONTENT_URI.buildUpon();
-				 * builder.appendPath("time"); ContentUris.appendId(builder,
-				 * startMillis); Intent intent = new Intent(Intent.ACTION_VIEW)
-				 * .setData(builder.build()); startActivity(intent);
-				 */
 
 				try {
 					Calendar today = Calendar.getInstance();
@@ -215,22 +233,46 @@ public class MainActivity extends Activity {
 	}
 
 	// http://stackoverflow.com/questions/7636697/get-path-and-filename-from-camera-intent-result
+	
 	@SuppressLint("NewApi")
 	private int getLastImageId() {
+		Cursor c;
 		final String[] imageColumns = { MediaStore.Images.Media._ID,
-				MediaStore.Images.Media.DATA };
+				MediaStore.Images.Media.DATA,  MediaStore.Images.Media.LATITUDE, MediaStore.Images.Media.LONGITUDE};
 		final String imageOrderBy = MediaStore.Images.Media._ID + " DESC";
+		
+		if (android.os.Build.VERSION.SDK_INT >= 11) {
 		CursorLoader imageCursor = new CursorLoader(getApplicationContext(),
 				MediaStore.Images.Media.EXTERNAL_CONTENT_URI, imageColumns,
 				null, null, imageOrderBy);
-		Cursor c = imageCursor.loadInBackground();
+		c = imageCursor.loadInBackground();
+		
+		}
+		else
+		{
+			// Get the base URI for the People table in the Contacts content provider.
+			Uri images = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+
+			// Make the query.
+			ContentResolver cr = getContentResolver();
+			c = cr.query(images,
+			        imageColumns, // Which columns to return
+			        "",         // Which rows to return (all rows)
+			        null,       // Selection arguments (none)
+			        imageOrderBy          // Ordering
+			        );
+			
+		}
 
 		if (c.moveToFirst()) {
 			int id = c.getInt(c.getColumnIndex(MediaStore.Images.Media._ID));
-			String fullPath = c.getString(c
-					.getColumnIndex(MediaStore.Images.Media.DATA));
+			String fullPath = c.getString(c.getColumnIndex(MediaStore.Images.Media.DATA));
+			String latitude = c.getString(c.getColumnIndex(MediaStore.Images.Media.LATITUDE));
+			String longitude = c.getString(c.getColumnIndex(MediaStore.Images.Media.LONGITUDE));
 			Log.d(TAG, "getLastImageId::id " + id);
 			Log.d(TAG, "getLastImageId::path " + fullPath);
+			Log.d(TAG, "getLastImageID::Latitude " + latitude);
+			Log.d(TAG, "getLastImageID::Longitude " + longitude);
 			c.close();
 			return id;
 		} else {
