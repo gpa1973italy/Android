@@ -8,9 +8,35 @@ import android.util.Log;
 public class DBHelper extends SQLiteOpenHelper{
 
 	public enum PHOTOSTREAM_RecordType {Album, Photo}	
+//	
+//	@SuppressWarnings("unused")
+//	public enum PHOTOSTREAM_RecordType {
+//		Album(0), Photo(1);
+//        private final int value;
+//
+//        private PHOTOSTREAM_RecordType(int value) {
+//            this.value = value;
+//        }
+//        public int PHOTOSTREAM_RecordType() {
+//            return value;
+//        }
+//    }
+//	
 	public enum PHOTOSTREAM_RecordStatus {Available, Deleted, Hidden, Private}	
 	
-	
+//	@SuppressWarnings("unused")
+//	public enum PHOTOSTREAM_RecordStatus {
+//		Available(0), Deleted(1), Hidden(2), Private(3);
+//        private final int value;
+//
+//        private PHOTOSTREAM_RecordStatus(int value) {
+//            this.value = value;
+//        }
+//        public int PHOTOSTREAM_RecordStatus() {
+//            return value;
+//        }
+//    }
+
 	private static final String LOG_TAG = DBHelper.class.getSimpleName();
 
 	private static final String DATABASE_NAME = "W2CPhotoStory.db";

@@ -136,7 +136,7 @@ public class DBAdapter {
     	return database.delete(DBHelper.TABLE_PHOTOSTREAM, DBHelper.COLUMN_PHOTOSTREAM_ID + " = " + ID, null) > 0;
     }
     
-    public Cursor fetchAllPhotoStreamRecords (){
+    public Cursor fetchAllPhotoStreamRecords (String orderBy){
 
     	Cursor myCursor =  database.query(DBHelper.TABLE_PHOTOSTREAM, new String[] {
     			DBHelper.COLUMN_PHOTOSTREAM_ID,
@@ -156,7 +156,7 @@ public class DBAdapter {
     			DBHelper.COLUMN_PHOTOSTREAM_CaptureGPSLongitude,
     			DBHelper.COLUMN_PHOTOSTREAM_CaptureGPSAccuracy
     	
-    	}, null, null, null, null, null);
+    	}, null, null, null, null, orderBy);
     	
     	return myCursor;
     }
