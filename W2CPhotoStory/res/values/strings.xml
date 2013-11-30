@@ -14,5 +14,13 @@
     <string name="scatta_foto">Scatta foto</string>
     <string name="vedi_galleria">Vedi galleria</string>
     <string name="gestione_album">Gestione Album</string>
+    <string name="title_activity_acquired_images">AcquiredImages</string>
+    <string name="detailstitle">detailsTitle</string>
+    <string name="detailsdescription">detailsDescription</string>
+    <string name="detailslatitude">detailsLatitude</string>
+    <string name="detailslongitude">detailsLongitude</string>
+    <string name="detailsid">detailsID</string>
+    <string name="detailsimage">detailsImage</string>
+    <string name="detailspathfilename">detailsPathFileName</string>
 
 </resources>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+<ImageView
+    android:id="@+id/detailsImage"
+    android:layout_width="100dip"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="30dp"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp"
+    android:layout_marginTop="30dp"
+    android:layout_gravity="center_horizontal"
+    android:adjustViewBounds="true"
+    android:scaleType="matrix"
+    android:src="@drawable/ic_launcher"
+    android:background="@android:color/background_dark" android:contentDescription="@string/detailsimage"/>
+
+<LinearLayout 
+     android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    
+    <TextView
+    android:id="@+id/detailsTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/detailstitle"
+    android:textAppearance="?android:attr/textAppearanceLarge"
+     />
+
+<TextView
+    android:id="@+id/detailsDescription"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/detailsdescription" />
+
+<TextView
+    android:id="@+id/detailsLatitude"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/detailslatitude" />
+
+<TextView
+    android:id="@+id/detailsLongitude"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/detailslongitude" />
+
+<TextView
+    android:id="@+id/detailsID"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/detailsid" 
+    android:visibility="gone"
+    />
+
+<TextView
+    android:id="@+id/detailsPathFileName"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/detailspathfilename" />
+    
+</LinearLayout>
+
+
+
+</LinearLayout>
