@@ -2,13 +2,14 @@ package com.woodstocoasts.photostory;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +58,10 @@ public class AcquiredImages extends Activity {
             
             lvAcquiredImages.setAdapter(adapter);
         }
+        else
+        {
+        	lvAcquiredImages.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, new String[]{"Nessun elemento da visualizzare"}));
+        }	
         
         lvAcquiredImages.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
@@ -65,9 +70,19 @@ public class AcquiredImages extends Activity {
 					int index, long arg3) {
 				// TODO Auto-generated method stub
 				try{
+				
 				 String str=lvAcquiredImages.getItemAtPosition(index).toString();
 				 TextView tv = (TextView)lvAcquiredImages.getChildAt(index).findViewById(R.id.detailsPathFileName);
+				 TextView tvID = (TextView)lvAcquiredImages.getChildAt(index).findViewById(R.id.detailsID);
 				 Toast.makeText(getApplicationContext(), str + "\n" + tv.getText(), Toast.LENGTH_LONG).show();
+				 
+				 Intent intent = new Intent(AcquiredImages.this, EditDetails.class);
+				 Bundle b = new Bundle();
+				 b.putLong("ID", Long.parseLong(tvID.getText().toString())); //Your id
+				 intent.putExtras(b); //Put your id to your next Intent
+				 startActivity(intent);
+				 //finish();
+				 
 				}
 				catch (Exception e){
 					Log.v("ERRORI", "Errore: " + e.toString());

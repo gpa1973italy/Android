@@ -68,6 +68,25 @@ public class DBAdapter {
 		return values;
     }
     
+    
+    private ContentValues createContentValuesPhotoStream2(
+    	
+    		String updateDateTimeUTC,
+    		String title,
+    		String description
+    		){
+    	
+    	ContentValues values = new ContentValues();
+    	
+    
+    	values.put(DBHelper.COLUMN_PHOTOSTREAM_UpdateDateTimeUTC, updateDateTimeUTC);
+    	values.put(DBHelper.COLUMN_PHOTOSTREAM_Title, title);
+    	values.put(DBHelper.COLUMN_PHOTOSTREAM_Description, description);
+    	
+
+		return values;
+    }
+    
     public long createPhotoStreamRecord (
     		String ownerID,
     		int recordType,
@@ -132,8 +151,46 @@ public class DBAdapter {
     }
     
     
+    public boolean updatePhotoStreamRecord  (long ID, 
+    	
+    		String updateDateTimeUTC,
+    		String title,
+    		String description
+    	
+    		
+    		){
+    	ContentValues updateValuesPhotoStreamRecord  = createContentValuesPhotoStream2(updateDateTimeUTC, title, description);
+    	return database.update(DBHelper.TABLE_PHOTOSTREAM, updateValuesPhotoStreamRecord, DBHelper.COLUMN_PHOTOSTREAM_ID + " = " + ID, null) > 0;
+    }
+    
     public boolean deletePhotoStreamRecord (long ID){
     	return database.delete(DBHelper.TABLE_PHOTOSTREAM, DBHelper.COLUMN_PHOTOSTREAM_ID + " = " + ID, null) > 0;
+    }
+    
+    
+    public Cursor fetchPhotoStreamRecordByID (long myID){
+
+    	Cursor myCursor =  database.query(DBHelper.TABLE_PHOTOSTREAM, new String[] {
+    			DBHelper.COLUMN_PHOTOSTREAM_ID,
+    			DBHelper.COLUMN_PHOTOSTREAM_OwnerID,
+    			DBHelper.COLUMN_PHOTOSTREAM_RecordType,
+    			DBHelper.COLUMN_PHOTOSTREAM_RecordRef,
+    			DBHelper.COLUMN_PHOTOSTREAM_CreationDateTimeUTC,
+    			DBHelper.COLUMN_PHOTOSTREAM_UpdateDateTimeUTC,
+    			DBHelper.COLUMN_PHOTOSTREAM_Title,
+    			DBHelper.COLUMN_PHOTOSTREAM_Description,
+    			DBHelper.COLUMN_PHOTOSTREAM_Status,
+    			DBHelper.COLUMN_PHOTOSTREAM_Favorite,
+    			DBHelper.COLUMN_PHOTOSTREAM_Synchronized,
+    			DBHelper.COLUMN_PHOTOSTREAM_BitmapFileType,
+    			DBHelper.COLUMN_PHOTOSTREAM_BitmapFileName,
+    			DBHelper.COLUMN_PHOTOSTREAM_CaptureGPSLatitude,
+    			DBHelper.COLUMN_PHOTOSTREAM_CaptureGPSLongitude,
+    			DBHelper.COLUMN_PHOTOSTREAM_CaptureGPSAccuracy
+    	
+    	}, DBHelper.COLUMN_PHOTOSTREAM_ID + " = " + Long.toBinaryString(myID), null, null, null, null);
+    	
+    	return myCursor;
     }
     
     public Cursor fetchAllPhotoStreamRecords (String orderBy){

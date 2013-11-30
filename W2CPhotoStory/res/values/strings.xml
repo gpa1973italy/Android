@@ -22,5 +22,13 @@
     <string name="detailsid">detailsID</string>
     <string name="detailsimage">detailsImage</string>
     <string name="detailspathfilename">detailsPathFileName</string>
+    <string name="title_activity_edit_details">EditDetails</string>
+    <string name="photo_title">Photo Title</string>
+    <string name="photo">Photo</string>
+    <string name="photo_description">Photo Description</string>
+    <string name="PhotoID">PhotoID</string>
+    <string name="PhotoTakeDateTime"></string>
+    <string name="phototakedatetime">PhotoTakeDateTime</string>
+    <string name="photolastupdatedatetime">PhotoLastUpdateDateTime</string>
 
 </resources>
