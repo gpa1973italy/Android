@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EditDetails extends Activity {
 
@@ -31,10 +32,17 @@ public class EditDetails extends Activity {
 		setContentView(R.layout.activity_edit_details);
 		
 		
+		myPhotoTitle = (EditText)findViewById(R.id.etPhotoTitle);
+		myPhotoDescription = (EditText)findViewById(R.id.etPhotoDescription);
+		myPhotoID = (TextView)findViewById(R.id.tvPhotoID);
+		myPhotoTakeDateTime = (TextView)findViewById(R.id.tvPhototakeDateTime);
+		myPhotoLastUpdateDateTime = (TextView)findViewById(R.id.tvPhotoLastUpdateDateTime);
 	
 	
 		Bundle b = getIntent().getExtras();
 		final long myID = b.getLong("ID");
+		Toast.makeText(getApplicationContext(), "ID in edit (getExtras): "+ myID, Toast.LENGTH_LONG).show();
+		
 		FillData(myID);
 		
 		ImageButton bUpdate = (ImageButton) findViewById(R.id.tbBtnUpdate);
@@ -43,12 +51,7 @@ public class EditDetails extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				
-				myPhotoTitle = (EditText)findViewById(R.id.etPhotoTitle);
-				myPhotoDescription = (EditText)findViewById(R.id.etPhotoDescription);
-				myPhotoID = (TextView)findViewById(R.id.tvPhotoID);
-				myPhotoTakeDateTime = (TextView)findViewById(R.id.tvPhototakeDateTime);
-				myPhotoLastUpdateDateTime = (TextView)findViewById(R.id.tvPhotoLastUpdateDateTime);
+
 				Date date=new Date();
 				
 				DBAdapter databaseHelper = new DBAdapter(getApplicationContext());
@@ -58,8 +61,9 @@ public class EditDetails extends Activity {
 						Utility.getDateTimeUTCFromMillis(date.getTime(), "yyyy-MM-dd HH:mm:ss.SSSZ"), 
 							myPhotoTitle.getText().toString(), 
 							myPhotoDescription.getText().toString());
-				FillData (myID);
-				
+				if (b) {
+					FillData (myID);
+				}
 				
 			}
 		});
@@ -84,15 +88,16 @@ public class EditDetails extends Activity {
 	public void FillData (long ID){
 		DBAdapter databaseHelper = new DBAdapter(getApplicationContext());
 		databaseHelper.open();
-		myPhotoTitle = (EditText)findViewById(R.id.etPhotoTitle);
-		myPhotoDescription = (EditText)findViewById(R.id.etPhotoDescription);
-		myPhotoID = (TextView)findViewById(R.id.tvPhotoID);
-		myPhotoTakeDateTime = (TextView)findViewById(R.id.tvPhototakeDateTime);
-		myPhotoLastUpdateDateTime = (TextView)findViewById(R.id.tvPhotoLastUpdateDateTime);
+//		myPhotoTitle = (EditText)findViewById(R.id.etPhotoTitle);
+//		myPhotoDescription = (EditText)findViewById(R.id.etPhotoDescription);
+//		myPhotoID = (TextView)findViewById(R.id.tvPhotoID);
+//		myPhotoTakeDateTime = (TextView)findViewById(R.id.tvPhototakeDateTime);
+//		myPhotoLastUpdateDateTime = (TextView)findViewById(R.id.tvPhotoLastUpdateDateTime);
 
 		Log.v("Edit:ID:", "" + ID);
+		Toast.makeText(getApplicationContext(), "ID in edit: "+ ID, Toast.LENGTH_LONG).show();
 		Cursor c = databaseHelper.fetchPhotoStreamRecordByID(ID);
-		Log.v("MAREMMA MAIALA", ""+ c.getCount());
+		Log.v("Edit:RecCount:", ""+ c.getCount());
 		if (c.moveToFirst()){
 			
 			myPhotoTitle.setText(c.getString(c.getColumnIndex(DBHelper.COLUMN_PHOTOSTREAM_Title)));

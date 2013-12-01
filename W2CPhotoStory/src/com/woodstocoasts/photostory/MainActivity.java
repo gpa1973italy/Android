@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 import com.woodstocoasts.photostory.Utility;
 
+import java.io.IOException;
 import java.util.Calendar;
 
 public class MainActivity extends Activity {
@@ -31,6 +32,13 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		try {
+			Utility.BackupDatabase(getApplicationContext());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		ImageButton mTbBtnBack = (ImageButton) findViewById(R.id.tbBtnBack);
 		ImageButton mTbBtnMainApp = (ImageButton) findViewById(R.id.tbBtnMainApp);

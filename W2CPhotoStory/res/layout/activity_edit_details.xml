@@ -36,7 +36,7 @@
             android:paddingLeft="0dp"
             android:paddingRight="0dp"
             android:paddingTop="0dp"
-            android:src="@drawable/btn_back" />
+            android:src="@drawable/btn_save_button" />
         </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"

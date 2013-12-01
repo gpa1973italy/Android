@@ -168,7 +168,7 @@ public class DBAdapter {
     }
     
     
-    public Cursor fetchPhotoStreamRecordByID (long myID){
+    public Cursor fetchPhotoStreamRecordByID (long ID){
 
     	Cursor myCursor =  database.query(DBHelper.TABLE_PHOTOSTREAM, new String[] {
     			DBHelper.COLUMN_PHOTOSTREAM_ID,
@@ -188,7 +188,7 @@ public class DBAdapter {
     			DBHelper.COLUMN_PHOTOSTREAM_CaptureGPSLongitude,
     			DBHelper.COLUMN_PHOTOSTREAM_CaptureGPSAccuracy
     	
-    	}, DBHelper.COLUMN_PHOTOSTREAM_ID + " = " + Long.toBinaryString(myID), null, null, null, null);
+    	}, DBHelper.COLUMN_PHOTOSTREAM_ID + " = " + ID, null, null, null, null);
     	
     	return myCursor;
     }

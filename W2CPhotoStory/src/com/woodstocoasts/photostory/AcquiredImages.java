@@ -67,18 +67,28 @@ public class AcquiredImages extends Activity {
 
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View view,
-					int index, long arg3) {
+					int position, long id) {
 				// TODO Auto-generated method stub
+				
+				
+				Log.v("CLICCHETE", "AdapterView: " + arg0.toString());
+				Log.v("CLICCHETE", "View: " + view.toString());
+				Log.v("CLICCHETE", "Position: " + position);
+				Log.v("CLICCHETE", "ID: " + id);
+				
+				 
 				try{
 				
-				 String str=lvAcquiredImages.getItemAtPosition(index).toString();
-				 TextView tv = (TextView)lvAcquiredImages.getChildAt(index).findViewById(R.id.detailsPathFileName);
-				 TextView tvID = (TextView)lvAcquiredImages.getChildAt(index).findViewById(R.id.detailsID);
-				 Toast.makeText(getApplicationContext(), str + "\n" + tv.getText(), Toast.LENGTH_LONG).show();
-				 
-				 Intent intent = new Intent(AcquiredImages.this, EditDetails.class);
+// questo codice manda in "bambola" il click lungo se fatto sull'inizio lista :/
+//				 TextView tv = (TextView)lvAcquiredImages.getChildAt(position).findViewById(R.id.detailsPathFileName);
+//				 TextView tvID = (TextView)lvAcquiredImages.getChildAt(position).findViewById(R.id.detailsID);
+//				 Toast.makeText(getApplicationContext(), "detailsID: " + tvID.getText() + "\n" + "detailsFilePath: " + tv.getText(), Toast.LENGTH_LONG).show();
+				
+
+				 Log.v("CLICCHETE", "lvAcquiredImages.getChildAt(position).findViewById(R.id.detailsID): " + id);
+				 Intent intent = new Intent(getApplicationContext(), EditDetails.class);
 				 Bundle b = new Bundle();
-				 b.putLong("ID", Long.parseLong(tvID.getText().toString())); //Your id
+				 b.putLong("ID", id); //Your id
 				 intent.putExtras(b); //Put your id to your next Intent
 				 startActivity(intent);
 				 //finish();
