@@ -143,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/btn_body_favorites"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="Immagini preferite" />
+                android:text="@string/immagini_preferite" />
             
         </LinearLayout>
     </ScrollView>

@@ -1,5 +1,7 @@
 package com.woodstocoasts.photostory;
 
+import java.io.File;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -8,8 +10,11 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +35,7 @@ public class AcquiredImages extends Activity {
 		DBAdapter databaseHelper = new DBAdapter(getApplicationContext());
 		databaseHelper.open();
 
-		Cursor c = databaseHelper.fetchAllPhotoStreamRecords(DBHelper.COLUMN_PHOTOSTREAM_ID + " DESC");
+		final Cursor c = databaseHelper.fetchAllPhotoStreamRecords(DBHelper.COLUMN_PHOTOSTREAM_ID + " DESC");
 
         if (c.moveToFirst()) {
             adapter = new SimpleCursorAdapter(this, R.layout.acquired_images_details, c,
@@ -40,8 +45,8 @@ public class AcquiredImages extends Activity {
             								DBHelper.COLUMN_PHOTOSTREAM_CaptureGPSLatitude,
             								DBHelper.COLUMN_PHOTOSTREAM_CaptureGPSLongitude,
             								DBHelper.COLUMN_PHOTOSTREAM_BitmapFileName
-//            								,
-//            								DBHelper.COLUMN_PHOTOSTREAM_BitmapFileName
+            								,
+            								DBHelper.COLUMN_PHOTOSTREAM_BitmapFileName
             								}
                                             , new int[] {
                                             R.id.detailsID,
@@ -50,11 +55,30 @@ public class AcquiredImages extends Activity {
                                             R.id.detailsLatitude,
                                             R.id.detailsLongitude,
                                             R.id.detailsPathFileName
-//                                            ,
-//                                            R.id.detailsImage
+                                            ,
+                                            R.id.detailsImage
                                             }, 0);
             
    
+            
+            adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+				
+				@Override
+				public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+					// TODO Auto-generated method stub
+				      if(view.getId() == R.id.detailsImage){
+				           //...
+				    	  Log.v("FileToDecode", "ViewID>>> " + view.getId() );
+				    	  File f = new File(c.getString(c.getColumnIndex(DBHelper.COLUMN_PHOTOSTREAM_BitmapFileName)));
+				    	  Log.v("FileToDecode", ">>> " + f.toString() );
+				           ((ImageView)view).setImageBitmap(( Utility.decodeFile(f)));
+				           return true; //true because the data was bound to the view
+				       }
+					
+					return false;
+				}
+			});
+            
             
             lvAcquiredImages.setAdapter(adapter);
         }
@@ -98,6 +122,18 @@ public class AcquiredImages extends Activity {
 					Log.v("ERRORI", "Errore: " + e.toString());
 				}
 				return true;
+			}
+		});
+        
+        
+        
+        ImageButton btnBack = (ImageButton)findViewById(R.id.tbBtnBack);
+        btnBack.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
 			}
 		});
         

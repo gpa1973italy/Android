@@ -26,82 +26,81 @@
             android:src="@drawable/btn_back" />
 
         <ImageButton
-            android:id="@+id/tbBtnMainApp"
+            android:id="@+id/tbBtnSpace1"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_gravity="top|center_vertical|center_horizontal"
+            android:layout_gravity="top|center_horizontal"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:contentDescription="@string/toolbarmenu"
+            android:contentDescription="@string/toolbarback"
             android:paddingBottom="0dp"
             android:paddingLeft="0dp"
             android:paddingRight="0dp"
             android:paddingTop="0dp"
-            android:src="@drawable/btn_menu" />
+            android:src="@drawable/tb_spacer" />
 
         <ImageButton
-            android:id="@+id/tbBtnDial"
+            android:id="@+id/tbBtnSpace2"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_gravity="top|center_vertical|center_horizontal"
+            android:layout_gravity="top|center_horizontal"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:contentDescription="@string/toolbarphone"
+            android:contentDescription="@string/toolbarback"
             android:paddingBottom="0dp"
             android:paddingLeft="0dp"
             android:paddingRight="0dp"
             android:paddingTop="0dp"
-            android:src="@drawable/btn_phone" />
+            android:src="@drawable/tb_spacer" />
 
         <ImageButton
-            android:id="@+id/tbBtnPhoto"
+            android:id="@+id/tbBtnSpace3"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_gravity="top|center_vertical|center_horizontal"
+            android:layout_gravity="top|center_horizontal"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:contentDescription="@string/toolbarphoto"
+            android:contentDescription="@string/toolbarback"
             android:paddingBottom="0dp"
             android:paddingLeft="0dp"
             android:paddingRight="0dp"
             android:paddingTop="0dp"
-            android:src="@drawable/btn_photo" />
+            android:src="@drawable/tb_spacer" />
 
         <ImageButton
-            android:id="@+id/tbBtnCalendar"
+            android:id="@+id/tbBtnSpace4"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_gravity="top|center_vertical|center_horizontal"
+            android:layout_gravity="top|center_horizontal"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:contentDescription="@string/toolbarcalendar"
+            android:contentDescription="@string/toolbarback"
             android:paddingBottom="0dp"
             android:paddingLeft="0dp"
             android:paddingRight="0dp"
             android:paddingTop="0dp"
-            android:src="@drawable/btn_calendar" />
+            android:src="@drawable/tb_spacer" />
 
         <ImageButton
-            android:id="@+id/tbBtnMaps"
+            android:id="@+id/tbBtnSpace5"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_gravity="top|center_vertical|center_horizontal"
+            android:layout_gravity="top|center_horizontal"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:contentDescription="@string/toolbarmaps"
+            android:contentDescription="@string/toolbarback"
             android:paddingBottom="0dp"
             android:paddingLeft="0dp"
             android:paddingRight="0dp"
             android:paddingTop="0dp"
-            android:src="@drawable/btn_maps" />
+            android:src="@drawable/tb_spacer" />
     </LinearLayout>
 
     <ListView
         android:id="@+id/lvAcquireImages"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-         android:background="@drawable/main_bg_gradient" 
-         >
+        android:background="@drawable/main_bg_gradient" >
     </ListView>
 
 </LinearLayout>

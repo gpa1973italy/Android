@@ -30,5 +30,6 @@
     <string name="PhotoTakeDateTime"></string>
     <string name="phototakedatetime">PhotoTakeDateTime</string>
     <string name="photolastupdatedatetime">PhotoLastUpdateDateTime</string>
+    <string name="immagini_preferite">Immagini preferite</string>
 
 </resources>
