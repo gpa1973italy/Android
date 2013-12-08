@@ -76,6 +76,8 @@ public final class R {
         public static final int button2=0x7f09001b;
         public static final int button3=0x7f09001c;
         public static final int button4=0x7f09001d;
+        public static final int ctxAcqImageDelete=0x7f090020;
+        public static final int ctxAcqImageEdit=0x7f09001f;
         public static final int detailsDescription=0x7f090002;
         public static final int detailsID=0x7f090005;
         public static final int detailsImage=0x7f090000;
@@ -112,9 +114,10 @@ public final class R {
     }
     public static final class menu {
         public static final int acquired_images=0x7f080000;
-        public static final int edit_details=0x7f080001;
-        public static final int main=0x7f080002;
-        public static final int prefs=0x7f080003;
+        public static final int acquired_images_context=0x7f080001;
+        public static final int edit_details=0x7f080002;
+        public static final int main=0x7f080003;
+        public static final int prefs=0x7f080004;
     }
     public static final class string {
         public static final int PhotoID=0x7f060019;

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
@@ -12,8 +13,11 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -66,6 +70,11 @@ public class AcquiredImages extends Activity {
 		setContentView(R.layout.activity_acquired_images);
 		
 		lvAcquiredImages = (ListView)findViewById(R.id.lvAcquireImages);
+		
+		/***
+		 * Registro l'intercettazione del menu contestuale
+		 */
+		registerForContextMenu(lvAcquiredImages);
 		
 		DBAdapter databaseHelper = new DBAdapter(getApplicationContext());
 		databaseHelper.open();
@@ -134,6 +143,9 @@ public class AcquiredImages extends Activity {
         	lvAcquiredImages.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, new String[]{"Nessun elemento da visualizzare"}));
         }	
         
+    
+  /*****************************************************      
+        // http://www.stealthcopter.com/blog/2010/04/android-context-menu-example-on-long-press-gridview/
         lvAcquiredImages.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
 			@Override
@@ -172,7 +184,7 @@ public class AcquiredImages extends Activity {
 			}
 		});
         
-        
+    *********************************/  
         
         ImageButton btnBack = (ImageButton)findViewById(R.id.tbBtnBack);
         btnBack.setOnClickListener(new OnClickListener() {
@@ -183,7 +195,7 @@ public class AcquiredImages extends Activity {
 				finish();
 			}
 		});
-        
+          
 	}
 
 	@Override
@@ -217,4 +229,65 @@ public class AcquiredImages extends Activity {
 	}
 //--------------------------------------------------------------
 	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+
+		switch (v.getId()) {
+		case R.id.lvAcquireImages:
+			Log.v("MENU", "btn1");
+			menu.setHeaderTitle("Available Actions");
+			menu.setHeaderIcon(R.drawable.ic_launcher);
+			getMenuInflater().inflate(R.menu.acquired_images_context, menu);
+			break;
+	
+		}
+		}
+	
+	@Override  
+    public boolean onContextItemSelected(MenuItem item) {  
+		lvAcquiredImages = (ListView)findViewById(R.id.lvAcquireImages);
+        
+        switch (item.getItemId()){
+        case R.id.ctxAcqImageEdit:
+        	Toast.makeText(getApplicationContext(), "Edit", Toast.LENGTH_SHORT).show();
+        	AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            long id = info.id;
+            EditAcquiredImage(id);
+        	
+        case R.id.ctxAcqImageDelete:
+        	Toast.makeText(getApplicationContext(), "Delete", Toast.LENGTH_SHORT).show();
+        }
+    return true;  
+    }
+	
+	
+
+	public void EditAcquiredImage(long id) {
+
+		
+		Log.v("CLICCHETE", "ID: " + id);
+
+		try {
+
+			Log.v("CLICCHETE",
+					"lvAcquiredImages.getChildAt(position).findViewById(R.id.detailsID): "
+							+ id);
+			Intent intent = new Intent(getApplicationContext(),
+					EditDetails.class);
+			Bundle b = new Bundle();
+			b.putLong("ID", id); // Your id
+			intent.putExtras(b); // Put your id to your next Intent
+			startActivity(intent);
+			// finish();
+
+		} catch (Exception e) {
+			Log.v("ERRORI", "Errore: " + e.toString());
+		}
+
+	}
+	
+	
 }
+	
