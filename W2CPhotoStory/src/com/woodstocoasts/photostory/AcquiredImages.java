@@ -1,11 +1,15 @@
 package com.woodstocoasts.photostory;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.Menu;
@@ -25,6 +29,37 @@ public class AcquiredImages extends Activity {
 	SimpleCursorAdapter adapter;
 	ListView lvAcquiredImages;
 	
+	public class SingleImageReference {
+		private File _FileName;
+		private View _ViewID;
+
+		public SingleImageReference(File f, View v) {
+			// TODO Auto-generated constructor stub
+			_FileName = f;
+			_ViewID = v;
+		}
+		
+		public void setFileName(File filename) {
+			this._FileName = filename;
+		}
+
+		public File getFileName() {
+			return _FileName;
+		}
+
+		public void setViewName(View v) {
+			this._ViewID = v;
+		}
+
+		public View getViewName() {
+			return _ViewID;
+		}
+	}
+	
+	
+	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,7 +69,9 @@ public class AcquiredImages extends Activity {
 		
 		DBAdapter databaseHelper = new DBAdapter(getApplicationContext());
 		databaseHelper.open();
-
+		
+		final ArrayList<SingleImageReference> imageToRender = new ArrayList<SingleImageReference>();
+		
 		final Cursor c = databaseHelper.fetchAllPhotoStreamRecords(DBHelper.COLUMN_PHOTOSTREAM_ID + " DESC");
 
         if (c.moveToFirst()) {
@@ -65,13 +102,23 @@ public class AcquiredImages extends Activity {
 				
 				@Override
 				public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+					
 					// TODO Auto-generated method stub
 				      if(view.getId() == R.id.detailsImage){
 				           //...
 				    	  Log.v("FileToDecode", "ViewID>>> " + view.getId() );
 				    	  File f = new File(c.getString(c.getColumnIndex(DBHelper.COLUMN_PHOTOSTREAM_BitmapFileName)));
 				    	  Log.v("FileToDecode", ">>> " + f.toString() );
-				           ((ImageView)view).setImageBitmap(( Utility.decodeFile(f)));
+				         
+				    	  ((ImageView)view).setImageBitmap(( Utility.decodeFile(f)));
+				    	  
+				    	  //imageToRender.add(new SingleImageReference(f, view));
+							
+				    	  // ((ImageView)view).setImageBitmap(null);
+				    	  // LdImage task = new LdImage();
+				    	  // task.execute(f);
+							
+							
 				           return true; //true because the data was bound to the view
 				       }
 					
@@ -145,5 +192,29 @@ public class AcquiredImages extends Activity {
 		getMenuInflater().inflate(R.menu.acquired_images, menu);
 		return true;
 	}
+	
 
+//-------------------------------------
+//	http://stackoverflow.com/questions/7729133/using-asynctask-to-load-images-in-listview
+	
+	private class LdImage extends AsyncTask<File, Void, Bitmap> {
+
+		@Override
+		protected Bitmap doInBackground(File... params) {
+			// TODO Auto-generated method stub
+			Bitmap response = null;
+			for (File f : params) {
+				response = Utility.decodeFile(f);
+			}
+			return response;
+		}
+
+		@Override
+		protected void onPostExecute(Bitmap result) {
+			ImageView myPhoto = (ImageView)findViewById(R.id.detailsImage);
+			myPhoto.setImageBitmap(result);
+		}
+	}
+//--------------------------------------------------------------
+	
 }
