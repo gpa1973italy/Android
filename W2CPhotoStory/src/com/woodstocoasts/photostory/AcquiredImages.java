@@ -1,13 +1,11 @@
 package com.woodstocoasts.photostory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -23,8 +21,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -60,15 +58,7 @@ public class AcquiredImages extends Activity {
 		}
 	}
 	
-	
-	
-	
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_acquired_images);
-		
+public	void populateAcquiredImages(){
 		lvAcquiredImages = (ListView)findViewById(R.id.lvAcquireImages);
 		
 		/***
@@ -78,8 +68,6 @@ public class AcquiredImages extends Activity {
 		
 		DBAdapter databaseHelper = new DBAdapter(getApplicationContext());
 		databaseHelper.open();
-		
-		final ArrayList<SingleImageReference> imageToRender = new ArrayList<SingleImageReference>();
 		
 		final Cursor c = databaseHelper.fetchAllPhotoStreamRecords(DBHelper.COLUMN_PHOTOSTREAM_ID + " DESC");
 
@@ -144,47 +132,24 @@ public class AcquiredImages extends Activity {
         }	
         
     
-  /*****************************************************      
-        // http://www.stealthcopter.com/blog/2010/04/android-context-menu-example-on-long-press-gridview/
-        lvAcquiredImages.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View view,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				
-				
-				Log.v("CLICCHETE", "AdapterView: " + arg0.toString());
-				Log.v("CLICCHETE", "View: " + view.toString());
-				Log.v("CLICCHETE", "Position: " + position);
-				Log.v("CLICCHETE", "ID: " + id);
-				
-				 
-				try{
-				
-// questo codice manda in "bambola" il click lungo se fatto sull'inizio lista :/
-//				 TextView tv = (TextView)lvAcquiredImages.getChildAt(position).findViewById(R.id.detailsPathFileName);
-//				 TextView tvID = (TextView)lvAcquiredImages.getChildAt(position).findViewById(R.id.detailsID);
-//				 Toast.makeText(getApplicationContext(), "detailsID: " + tvID.getText() + "\n" + "detailsFilePath: " + tv.getText(), Toast.LENGTH_LONG).show();
-				
-
-				 Log.v("CLICCHETE", "lvAcquiredImages.getChildAt(position).findViewById(R.id.detailsID): " + id);
-				 Intent intent = new Intent(getApplicationContext(), EditDetails.class);
-				 Bundle b = new Bundle();
-				 b.putLong("ID", id); //Your id
-				 intent.putExtras(b); //Put your id to your next Intent
-				 startActivity(intent);
-				 //finish();
-				 
-				}
-				catch (Exception e){
-					Log.v("ERRORI", "Errore: " + e.toString());
-				}
-				return true;
-			}
-		});
-        
-    *********************************/  
+		
+	}
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
+		
+		populateAcquiredImages();
+	}
+	
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_acquired_images);
+		
+		populateAcquiredImages();
+  
         
         ImageButton btnBack = (ImageButton)findViewById(R.id.tbBtnBack);
         btnBack.setOnClickListener(new OnClickListener() {
@@ -236,35 +201,54 @@ public class AcquiredImages extends Activity {
 
 		switch (v.getId()) {
 		case R.id.lvAcquireImages:
-			Log.v("MENU", "btn1");
-			menu.setHeaderTitle("Available Actions");
-			menu.setHeaderIcon(R.drawable.ic_launcher);
-			getMenuInflater().inflate(R.menu.acquired_images_context, menu);
+
+			// Controllo che ci sia un elemento del ListAdapter > 0
+			// per capire se c'è qualcosa sul DB e generare il menu!
+
+			ListAdapter s = lvAcquiredImages.getAdapter();
+			Log.v("ITEMONCREATE", "" + s.getItemId(0));
+
+			if (s.getItemId(0) > 0) {
+
+				Log.v("MENU", "btn1");
+				menu.setHeaderTitle("Available Actions");
+				menu.setHeaderIcon(R.drawable.ic_launcher);
+				getMenuInflater().inflate(R.menu.acquired_images_context, menu);
+			}
 			break;
-	
+
 		}
-		}
-	
+	}
+
 	@Override  
     public boolean onContextItemSelected(MenuItem item) {  
 		lvAcquiredImages = (ListView)findViewById(R.id.lvAcquireImages);
+        long id;
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         
         switch (item.getItemId()){
         case R.id.ctxAcqImageEdit:
         	Toast.makeText(getApplicationContext(), "Edit", Toast.LENGTH_SHORT).show();
-        	AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            long id = info.id;
-            EditAcquiredImage(id);
+        	//AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+             id = info.id;
+             Log.v("ITEM:", "" + id);
+            editAcquiredImage(id);
+            break;
         	
         case R.id.ctxAcqImageDelete:
         	Toast.makeText(getApplicationContext(), "Delete", Toast.LENGTH_SHORT).show();
+        	
+        	id = info.id;
+        	Log.v("ITEM:", "" + id);
+        	deleteAcquiredImage(id);
+        	break;
         }
     return true;  
     }
 	
 	
 
-	public void EditAcquiredImage(long id) {
+	public void editAcquiredImage(long id) {
 
 		
 		Log.v("CLICCHETE", "ID: " + id);
@@ -287,6 +271,71 @@ public class AcquiredImages extends Activity {
 		}
 
 	}
+	
+	void deleteAcquiredImage(final long id){
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		
+		builder.setMessage("Do you want delete selected image?")
+		.setTitle("Warning")
+		.setIcon(R.drawable.ic_launcher)
+		.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				evaluateDeleteResponse(which, id);
+				
+			}
+
+		})
+		.setNegativeButton("No", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				evaluateDeleteResponse(which, id);
+				
+			}
+		});
+
+		AlertDialog dialog = builder.create();
+		dialog.show();	
+		
+	}
+	
+	/**
+	 * Creare una UNDOBAR come Roman Nurik
+	 * https://plus.google.com/+RomanNurik/posts/RA9WEEGWYp6
+	 * https://code.google.com/p/romannurik-code/source/browse/misc/undobar
+	 * http://theopentutorials.com/tutorials/android/android-sending-object-from-one-activity-to-another-using-parcelable/
+	 * @param result
+	 * @param ID
+	 */
+	
+	private void evaluateDeleteResponse(int result, long ID){
+		
+		switch (result){
+		case DialogInterface.BUTTON_POSITIVE:
+			DBAdapter databaseHelper = new DBAdapter(
+					getApplicationContext());
+			databaseHelper.open();
+			boolean b = databaseHelper.deletePhotoStreamRecord(ID);
+			//boolean  b = false;
+			Toast.makeText(getApplicationContext(), "Image deleted! {" + Boolean.toString(b) + "}", Toast.LENGTH_SHORT).show();
+			databaseHelper.close();
+			lvAcquiredImages = (ListView)findViewById(R.id.lvAcquireImages);
+			lvAcquiredImages.invalidateViews();
+			populateAcquiredImages();
+			break;
+			
+		case DialogInterface.BUTTON_NEGATIVE:
+			Toast.makeText(getApplicationContext(), "No change", Toast.LENGTH_SHORT).show();
+			break;
+		}
+	}
+
+	
 	
 	
 }
